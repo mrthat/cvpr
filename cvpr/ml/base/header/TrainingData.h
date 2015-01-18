@@ -85,6 +85,20 @@ namespace cvpr
 				sizes[0]	=	size.height;
 				sizes[1]	=	size.width;
 			}
+			
+			/**
+			*	2dのサイズとデータ型指定して構築
+			*	@param	rows		行数
+			*	@param	cols		列数
+			*	@param	data_type	データのタイプ
+			*/
+			MatType(int rows, int cols, int data_type)
+				: data_type(data_type)
+			{
+				sizes.assign(2, 0);
+				sizes[0]	=	rows;
+				sizes[1]	=	cols;
+			}
 
 			/**
 			*	mdのサイズとデータ型指定して構築

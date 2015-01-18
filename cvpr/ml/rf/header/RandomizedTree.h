@@ -25,7 +25,7 @@ namespace cvpr
 	{
 		public:
 			RandomizedTreeParameter()
-				: max_height(0), min_samples(0), num_splits(0), rng_seed(0), min_info_grain(0.001f)
+				: max_height(10), min_samples(10), num_splits(1000), rng_seed(19861124), min_info_grain(0.001f)
 			{};
 			virtual			~RandomizedTreeParameter() {};
 			

@@ -28,7 +28,7 @@ namespace cvpr
 	{
 		public:
 			RandomForestParameter()
-				: num_trees(0), resample_rate(0)
+				: num_trees(5), resample_rate(0.4)
 			{};
 
 			virtual		~RandomForestParameter() {};

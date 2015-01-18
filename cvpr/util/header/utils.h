@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <random>
+#include <cassert>
 #include <opencv2\core\core.hpp>
 
 #define	STRINGIZE(var) (#var)
@@ -29,9 +30,12 @@ namespace cvpr
 	*/
 	template<class tp> tp	random_sample(const std::vector<tp> &src, std::mt19937 &rng)
 	{
-		std::uniform_real_distribution<std::size_t>	real_dist(0, src.size());
+		assert(!src.empty());
 
-		return src[real_dist(rng)];
+		std::uniform_real_distribution<double>	real_dist(0, 1);
+		std::size_t	idx	=	((std::size_t)std::floor(real_dist(rng) * src.size()));
+
+		return src[idx];
 	};
 
 	/**

@@ -21,7 +21,7 @@ namespace cvpr
 	/**
 	*	randomized treeのパラメータクラス
 	*/
-	class RandomizedTreeParameter : public StaticalModelParameter
+	class RandomizedTreeParameter : public WeakLearnerParameter
 	{
 		public:
 			RandomizedTreeParameter()
@@ -60,7 +60,7 @@ namespace cvpr
 	/**
 	*	randomized treeの基本クラス
 	*/
-	class RandomizedTree : public StaticalModel
+	class RandomizedTree : public WeakLearner
 	{
 		public:
 			/**
@@ -152,6 +152,8 @@ namespace cvpr
 	};
 
 	typedef std::shared_ptr<RandomizedTree>	PtrRandomizedTree ;
+
+	typedef RandomizedTreeParameter ClassificationTreeParameter;
 
 	/**
 	*	クラス識別用のrandomized tree

@@ -18,7 +18,7 @@ LogisticRegression::calc_loss(const PtrTrainingExample data) const
 {
 	cv::Mat	activation	=	calc_activation(data->feature);
 
-	return (data->label - activation);
+	return (data->target - activation);
 }
 
 int
@@ -104,5 +104,5 @@ cv::Mat	SoftMaxRegression::calc_loss(const PtrTrainingExample data) const
 {
 	cv::Mat	activation	=	calc_activation(data->feature);
 
-	return data->label.mul(data->label - activation);
+	return data->target.mul(data->target - activation);
 }

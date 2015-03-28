@@ -53,7 +53,7 @@ bool	TrainingSet::is_valid_example(const PtrTrainingExample &example) const
 		return false;
 	}
 
-	if (!label_type_.equals(example->label)) {
+	if (!label_type_.equals(example->target)) {
 		return false;
 	}
 
@@ -68,7 +68,7 @@ cv::Mat	TrainingSet::calc_label_sum()const
 	label_sum	=	0;
 
 	for (auto ii = examples_.begin(); ii != examples_.end(); ++ii) {
-		(*ii)->label.convertTo(tmp, CV_64F);
+		(*ii)->target.convertTo(tmp, CV_64F);
 		label_sum	+=	tmp;
 	}
 
@@ -83,7 +83,7 @@ TrainingSet	TrainingSet::calc_l2_normalized_set() const
 		PtrTrainingExample	ex(new TrainingExample) ;
 
 		cv::normalize(this->operator[](ii)->feature, ex->feature, 1.0, 0, cv::NORM_L2);
-		cv::normalize(this->operator[](ii)->label, ex->label, 1.0, 0, cv::NORM_L2);
+		cv::normalize(this->operator[](ii)->target, ex->target, 1.0, 0, cv::NORM_L2);
 
 		dst.push_back(ex);
 	}
@@ -170,7 +170,7 @@ TrainingSet	TrainingSet::mat_arr_to_train_set(const std::vector<cv::Mat> &featur
 		}
 
 		ex->feature	=	ftmp;
-		ex->label	=	ltmp;
+		ex->target	=	ltmp;
 
 		dst.push_back(ex);
 	}

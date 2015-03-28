@@ -11,6 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="factory\src\StatModelFactory.cpp" />
+    <ClCompile Include="boosting\src\AdaBoost.cpp" />
     <ClCompile Include="mlp\src\ConvolutionalNeuralNetwork.cpp" />
     <ClCompile Include="rf\src\LeafNode.cpp" />
     <ClCompile Include="basic\src\LinearRegression.cpp" />
@@ -28,9 +30,11 @@
     <ClCompile Include="base\src\TrainingData.cpp" />
     <ClCompile Include="rf\src\TreeNode.cpp" />
     <ClCompile Include="rf\src\TreeNodeFactory.cpp" />
-    <ClCompile Include="util\src\DatasetLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="base\header\MlDefines.h" />
+    <ClInclude Include="factory\header\StatModelFactory.h" />
+    <ClInclude Include="boosting\header\AdaBoost.h" />
     <ClInclude Include="mlp\header\ConvolutionalNeuralNetwork.h" />
     <ClInclude Include="rf\header\LeafNode.h" />
     <ClInclude Include="basic\header\LinearRegression.h" />
@@ -47,7 +51,6 @@
     <ClInclude Include="base\header\TrainingData.h" />
     <ClInclude Include="rf\header\TreeNode.h" />
     <ClInclude Include="rf\header\TreeNodeFactory.h" />
-    <ClInclude Include="util\header\DataSetLoader.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{EEE8A706-C245-4ACD-BBEF-93D6DAA112CA}</ProjectGuid>
@@ -83,7 +86,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\external\opencv\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\external\opencv\build\include;..\util\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -97,7 +100,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\external\opencv\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\external\opencv\build\include;..\util\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>

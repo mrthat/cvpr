@@ -258,7 +258,7 @@ void	LinearRegression::calc_param_delta(const TrainingSet &train_set, cv::Mat &d
 	
 	// 全データで損失計算して，更新量に加算する
 	for (std::size_t ii = 0; ii < train_set.size(); ++ii) {
-		cv::Mat	loss	=	train_set[ii]->label - calc_activation(train_set[ii]->feature);
+		cv::Mat	loss	=	train_set[ii]->target - calc_activation(train_set[ii]->feature);
 		
 		delta_w		+=	loss.t() * train_set[ii]->feature;
 		delta_w0	+=	loss.dot(loss);

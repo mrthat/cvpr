@@ -1,6 +1,7 @@
 #pragma once
 #include "PredictionResult.h"
 #include "TrainingData.h"
+#include "MlDefines.h"
 
 namespace cvpr
 {
@@ -27,6 +28,7 @@ namespace cvpr
 			*	@return	エラーコード等
 			*/
 			virtual int		load(const std::string &load_path)	=	0;
+
 		protected:
 	};
 
@@ -64,10 +66,28 @@ namespace cvpr
 			*/
 			virtual int		train(const TrainingSet &train_set, const StaticalModelParameter *param)	=	0;
 
+			/**
+			*	クラスの型情報を返す
+			*	@return	統計モデルの識別子
+			*/
+			virtual StatModelType get_type() const { return StatModelType::STAT_MODEL; };
+
 		protected:
 
 		private:
 	};
 
+	//! 弱識別器パラメータクラス (不要感ある)
+	class WeakLearnerParameter : public StaticalModelParameter
+	{
+	};
 
+	//! 弱識別器ベースクラス
+	class WeakLearner : public StaticalModel
+	{
+	};
+
+	typedef std::shared_ptr<StaticalModel> PtrStaticalModel;
+	typedef std::shared_ptr<WeakLearner> PtrWeakLearner;
+	typedef std::shared_ptr<WeakLearnerParameter> PtrWeakLearnerParam;
 };

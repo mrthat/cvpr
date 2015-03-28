@@ -3,6 +3,8 @@
 #include <vector>
 #include <cmath>
 #include <opencv2\core\core.hpp>
+#include "utils.h"
+
 
 namespace cvpr
 {
@@ -60,12 +62,15 @@ namespace cvpr
 			*	識別結果のタイプを取得
 			*/
 			virtual cvpr::ResultType	type() const { return RESULT_TYPE_CLASSIFICATION; };
-
+			
 			/**
-			*	事後確率の行列の中で最大の要素のidxを返す
-			*	@return	事後確率の行列の中で最大の要素のidx
+			*	posterior_内の最大要素のidxを取得
+			*	@return	label内の最大要素のidx
 			*/
-			int	get_max_posterior_idx() const ;
+			int	label() const 
+			{
+				return max_idx(posterior_);
+			}
 
 		protected:
 	};

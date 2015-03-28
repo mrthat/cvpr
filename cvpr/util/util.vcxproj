@@ -69,7 +69,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="header\DataSetLoader.h" />
-    <ClInclude Include="header\utils.h" />
+    <ClInclude Include="include\utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\DatasetLoader.cpp" />

@@ -2,9 +2,7 @@
 #include	<cmath>
 #include	<limits>
 #include	<sstream>
-#include	"..\header\utils.h"
-
-
+#include	"..\include\utils.h"
 
 const static double EULER_CONSTANT	=	0.577215664901532860606512090082;
 
@@ -22,14 +20,7 @@ template<class tp> void
 		}
 	}
 }
-/*
-template<class tp> tp	cvpr::random_sample(const std::vector<tp> &src, std::mt19937 &rng) 
-{
-std::uniform_real_distribution<>	real_dist(0, src.size());
 
-return src[real_dist(rng)];
-}
-*/
 double	
 	cvpr::digamma(int hk)
 {

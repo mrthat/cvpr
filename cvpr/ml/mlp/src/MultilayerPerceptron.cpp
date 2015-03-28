@@ -1,7 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS 1
 #include "..\header\MutilayerPercptron.h"
 #include "..\header\MlpLayerFactory.h"
-#include "..\..\..\util\header\utils.h"
+#include "utils.h"
 #include <direct.h>
 
 using namespace cvpr ;
@@ -253,7 +253,7 @@ int	MultilayerPerceptron::train(const TrainingSet &train_set, const MultilayerPe
 			calc_all_a_z(example->feature, a_j, z_j);
 			
 			// 出力層で誤差を得る
-			err_k.back()	=	example->label - z_j.back();
+			err_k.back()	=	example->target - z_j.back();
 
 			// 前の層の誤差を用いて，今の層の誤差を得る
 			// 今の層の誤差と今の層の入力からパラメータ増分を得る

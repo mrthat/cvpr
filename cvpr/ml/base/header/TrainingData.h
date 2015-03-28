@@ -6,7 +6,7 @@
 #include	<array>
 #include	<memory>
 #include	<opencv2\core\core.hpp>
-#include	"..\..\..\util\header\utils.h"
+#include	"utils.h"
 
 namespace cvpr
 {
@@ -27,8 +27,8 @@ namespace cvpr
 			*	@param	feature	特徴ベクトル
 			*	@param	label	ラベル
 			*/
-			TrainingExample(cv::Mat feature, cv::Mat label)
-				: feature(feature), label(label) {};
+			TrainingExample(cv::Mat feature, cv::Mat target)
+				: feature(feature), target(target) {};
 
 			virtual	~TrainingExample() {};
 
@@ -40,7 +40,16 @@ namespace cvpr
 			/**
 			*	ラベル
 			*/
-			cv::Mat	label;
+			cv::Mat	target;
+
+			/**
+			*	label内の最大要素のidxを取得
+			*	@return	label内の最大要素のidx
+			*/
+			int	label() const
+			{
+				return max_idx(target);
+			}
 
 			/**
 			*	label内の最大要素のidxを取得
@@ -48,7 +57,7 @@ namespace cvpr
 			*/
 			int	label_max_idx() const
 			{
-				return max_idx(label);
+				return max_idx(target);
 			}
 
 		protected:

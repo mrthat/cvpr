@@ -43,7 +43,7 @@ namespace cvpr
 	/**
 	*	random forest系のベースクラス
 	*/
-	class RandomForest : public StaticalModel
+	class RandomForest : public WeakLearner
 	{
 		public:
 			

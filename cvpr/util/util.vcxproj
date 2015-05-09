@@ -70,8 +70,10 @@
   <ItemGroup>
     <ClInclude Include="header\DataSetLoader.h" />
     <ClInclude Include="include\utils.h" />
+    <ClInclude Include="header\PathUtil.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\PathUtil.cpp" />
     <ClCompile Include="src\DatasetLoader.cpp" />
     <ClCompile Include="src\utils.cpp" />
   </ItemGroup>

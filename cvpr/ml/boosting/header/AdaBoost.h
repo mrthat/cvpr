@@ -25,22 +25,17 @@ namespace cvpr
 			//! 乱数のシード
 			uint64 seed;
 			
+			//! 弱識別器ファクトリー
 			mutable WeakLearnerPoolFactoryBase *factory;
-
-			//! 弱識別器ファクトリー 
-			//WeakLearnerFactoryBase *factory;
-
-			//! 弱識別器に食わせるパラメータ
-			//Parameter *weak_learner_param;
 
 		protected:
 	};
 
+	//! adaboostクラス
 	class AdaBoost : public StaticalModel
 	{
 		public:
 
-						
 			/**
 			*	パラメータのファイル出力
 			*	@param	save_path	出力先のパス
@@ -75,11 +70,6 @@ namespace cvpr
 			*/
 			virtual StatModelType get_type() const { return StatModelType::ADABOOST; };
 
-
-			//int Train( const TrainDatas &train_datas, const Parameter* param);
-			//int SaveModel( const std::string dir_name ) const;
-			//int LoadModel( const std::string dir_name );
-			//int Predict( const FeatureVector* fv, DecisionResult *decision_result );
 		protected:
 			
 			/**
@@ -118,6 +108,9 @@ namespace cvpr
 			void update_sample_weights(const TrainingSet &datas, const cv::Mat &src_weight,
 				PtrWeakLearner &model, double alpha, cv::Mat &dst_weight) ;
 
+			/**
+			*	
+			*/
 			double calc_alpha(double error) const { return 0.5 * log( (1.0 - error) / error); };
 			
 			int train(const TrainingSet &datas, const AdaboostParameter &param, cv::RNG &rng);

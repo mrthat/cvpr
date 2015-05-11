@@ -78,7 +78,7 @@ namespace cvpr
 	/**
 	*	‰ñ‹A—\‘ªŒ‹‰ÊƒNƒ‰ƒX
 	*/
-	class RegressionResult : public ClassificationResult
+	class RegressionResult : public PredictionResult
 	{
 		public:
 			

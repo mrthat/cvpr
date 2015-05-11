@@ -390,16 +390,16 @@ namespace cvpr
 			TrainingSet	get_out_of_bag(const TrainingSet &bag) const ;
 
 			/**
-			*	ラベルの行列の平均を求める
+			*	教師の行列の平均を求める
 			*	@param	dst	出力の行列
 			*/
-			void compute_label_mean(cv::Mat &dst) const;
+			void compute_target_mean(cv::Mat &dst) const;
 
 			/**
-			*	ラベルの行列の分散を求める
+			*	教師の行列の分散を求める
 			*	@return	分散
 			*/
-			double compute_label_var() const;
+			double compute_target_var() const;
 
 		protected:
 
@@ -418,6 +418,12 @@ namespace cvpr
 			*	@return	true:有効, false: 無効
 			*/
 			bool	is_valid_example(const PtrTrainingExample &example) const;
+
+			/**
+			*	教師の二乗の平均
+			*	@param	dst	出力
+			*/
+			void compute_target_mean2(cv::Mat &dst) const;
 	};
 
 };

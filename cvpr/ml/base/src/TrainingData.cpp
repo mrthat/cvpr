@@ -219,3 +219,40 @@ TrainingSet	TrainingSet::get_out_of_bag(const TrainingSet &bag) const
 
 	return dst_set;
 }
+
+/**
+*	ラベルの行列の平均を求める
+*	@param	dst	出力の行列
+*/
+void TrainingSet::compute_target_mean(cv::Mat &dst) const
+{
+	if (examples_.empty())
+		return;
+
+	dst	=	calc_label_sum() / size();
+}
+
+/**
+*	ラベルの行列の分散を求める
+*	@return	分散
+*/
+double TrainingSet::compute_target_var() const
+{
+	cv::Mat	mean;
+	double	var	=	0;
+
+	if (examples_.empty())
+		return 0;
+
+	compute_target_mean(mean);
+
+	for (std::size_t ii = 0; ii < examples_.size(); ++ii) {
+		cv::Mat	tmp;
+
+		examples_[ii]->target.convertTo(tmp, CV_64F);
+
+
+	}
+
+	return 0;
+}

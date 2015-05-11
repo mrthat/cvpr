@@ -50,10 +50,9 @@ int AdaBoost::train(const TrainingSet &datas, const AdaboostParameter &param, cv
 {
 	cv::Mat	sample_weights(datas.size(), 1, CV_64FC1, 1.0);
 
-	//tbb::task_scheduler_init tbb_init(3);
 	for (unsigned int round = 0; round < param.nr_rounds; ++round) {
 		double	alpha	=	0;
-		std::vector<PtrWeakLearner>		pool;//	=	param.factory->create_trained_pool(datas, param.nr_weak_learners);
+		std::vector<PtrWeakLearner>		pool;
 		std::vector<WeakLearnerentry>	eval_results;
 		WeakLearnerentry				*best_learner	=	nullptr;
 		cv::Mat							tmp_weights;
@@ -214,8 +213,8 @@ int AdaBoost::predict(const cv::Mat &feature, PredictionResult *result)
 
 	std::vector<cv::Mat>	pr;
 	cv::Mat	avg;
-	//cv::Mat	pr;
 
+	// ŽãŽ¯•ÊŠí‘S•”‚ÅŽ¯•Ê‚·‚é
 	for (std::size_t ii = 0; ii < weak_classifiers_.size(); ++ii) {
 		ClassificationResult	tmp;
 		
@@ -223,6 +222,7 @@ int AdaBoost::predict(const cv::Mat &feature, PredictionResult *result)
 		pr.push_back(tmp.get_posterior());
 	}
 
+	// ‰Ád•½‹Ï‚µ‚ÄŒ‹‰Ê‚É‹l‚ß‚é
 	avg	=	pr.front() * alpha_t_.front() / sum_alpha_;
 
 	for (std::size_t ii = 1; ii < pr.size(); ++ii) {

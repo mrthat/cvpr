@@ -25,13 +25,8 @@ namespace cvpr
 			//! 乱数のシード
 			uint64 seed;
 			
+			//! 弱識別器ファクトリー 学習時にこいつを使って弱識別器を生成してプールを生成する
 			mutable WeakLearnerPoolFactoryBase *factory;
-
-			//! 弱識別器ファクトリー 
-			//WeakLearnerFactoryBase *factory;
-
-			//! 弱識別器に食わせるパラメータ
-			//Parameter *weak_learner_param;
 
 		protected:
 	};
@@ -75,11 +70,6 @@ namespace cvpr
 			*/
 			virtual StatModelType get_type() const { return StatModelType::ADABOOST; };
 
-
-			//int Train( const TrainDatas &train_datas, const Parameter* param);
-			//int SaveModel( const std::string dir_name ) const;
-			//int LoadModel( const std::string dir_name );
-			//int Predict( const FeatureVector* fv, DecisionResult *decision_result );
 		protected:
 			
 			/**
@@ -118,14 +108,28 @@ namespace cvpr
 			void update_sample_weights(const TrainingSet &datas, const cv::Mat &src_weight,
 				PtrWeakLearner &model, double alpha, cv::Mat &dst_weight) ;
 
+			/**
+			*	識別エラーから弱識別器の重みを計算する
+			*	@param	error	学習セットの識別エラー
+			*	@return	弱識別器の重み
+			*/
 			double calc_alpha(double error) const { return 0.5 * log( (1.0 - error) / error); };
 			
+			/**
+			*	学習本処理
+			*	@param	datas	学習データ
+			*	@param	param	パラメータ
+			*	@param	rng		乱数エンジン
+			*/
 			int train(const TrainingSet &datas, const AdaboostParameter &param, cv::RNG &rng);
 
+			//! 弱識別器
 			std::vector<PtrWeakLearner> weak_classifiers_;
 			
+			//! 弱識別器の重み
 			std::vector<double> alpha_t_;
 			
+			//! 重みの合計値(加重平均の正規化に使う．事前計算しとく)
 			double sum_alpha_;
 
 	};

@@ -22,7 +22,7 @@ LogisticRegression::calc_loss(const PtrTrainingExample data) const
 }
 
 int
-LogisticRegression::predict(const cv::Mat &feature, PredictionResult *result)
+LogisticRegression::predict(const cv::Mat &feature, PredictionResult *result, const PredictionParameter *param)
 {
 	ClassificationResult	*res	=	dynamic_cast<ClassificationResult*>(result);
 

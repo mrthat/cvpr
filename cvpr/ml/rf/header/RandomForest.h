@@ -85,7 +85,7 @@ namespace cvpr
 
 			virtual int		load(const std::string &load_path) ;
 
-			virtual int		predict(const cv::Mat &feature, cvpr::PredictionResult *result) ;
+			virtual int		predict(const cv::Mat &feature, cvpr::PredictionResult *result, const PredictionParameter *param = nullptr);
 
 			virtual int		train(const cvpr::TrainingSet &train_set, const cvpr::StaticalModelParameter *param) ;
 

@@ -6,7 +6,7 @@
 namespace cvpr
 {
 
-	/** パラメータベースクラス */
+	/** 学習パラメータベースクラス */
 	class StaticalModelParameter
 	{
 		public:
@@ -29,6 +29,15 @@ namespace cvpr
 			*/
 			virtual int		load(const std::string &load_path)	=	0;
 
+		protected:
+	};
+
+	/**
+	*	予測パラメータベースクラス
+	*/
+	class PredictionParameter
+	{
+		public:
 		protected:
 	};
 
@@ -56,8 +65,10 @@ namespace cvpr
 			*	特徴ベクトルから予測結果を出す
 			*	@param	feature	入力の特徴ベクトル
 			*	@param	result	出力の予測結果
+			*	@param	param	パラメータ
+			*	@return	成否
 			*/
-			virtual int		predict(const cv::Mat &feature, PredictionResult *result)	=	0;
+			virtual int		predict(const cv::Mat &feature, PredictionResult *result, const PredictionParameter *param = nullptr)	=	0;
 
 			/**
 			*	学習を実行する

@@ -1,22 +1,10 @@
 #include "..\header\StatModelFactory.h"
+#include "..\..\rf\header\ClassificationTree.h"
+#include "..\..\rf\header\RandomForest.h"
 
 using namespace cvpr;
 
-PtrStaticalModel StatModelFactoryBase::create(const StatModelType &type)
-{
-	switch (type) {
-		case StatModelType::CLASSIFICATION_TREE:
-			return PtrStaticalModel(new ClassificationTree());
-		case StatModelType::CLASSIFICATION_FOREST:
-			return PtrStaticalModel(new ClassificationForest());
-		default:
-			return nullptr;
-	}
-
-	return nullptr;
-}
-
-PtrWeakLearner WeakLearnerFactoryBase::create(const StatModelType &type)
+PtrWeakLearner WeakLearnerFactory::create(const StatModelType &type)
 {
 	switch (type) {
 		case StatModelType::CLASSIFICATION_TREE:
@@ -45,16 +33,4 @@ std::vector<PtrWeakLearner> WeakLearnerPoolFactoryBase::create_trained_pool(cons
 	}
 
 	return pool;
-}
-
-PtrWeakLearnerParam ClassificationTreePoolFactory::next_param() 
-{
-	PtrWeakLearnerParam	param_	=	PtrWeakLearnerParam(new ClassificationTreeParameter(this->param));
-
-	return param_;
-}
-
-PtrWeakLearner ClassificationTreePoolFactory::next_model() 
-{
-	return PtrWeakLearner(new ClassificationTree());
 }

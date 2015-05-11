@@ -19,7 +19,7 @@ namespace cvpr
 
 		public:
 
-			virtual int		predict(const cv::Mat &feature, PredictionResult *result);
+			virtual int		predict(const cv::Mat &feature, PredictionResult *result, const PredictionParameter *param = nullptr);
 
 			/**
 			*	ロジスティック回帰の予測メソッド

@@ -40,7 +40,7 @@ namespace cvpr
 		typedef enum {
 			LEAF_TYPE_BASE,				//< ベースクラス
 			LEAF_TYPE_CLASSIFICATION,	//< クラス識別用
-			//LEAF_TYPE_REGRESSION,		//< 回帰用
+			LEAF_TYPE_REGRESSION,		//< 回帰用
 			//LEAF_TYPE_DENSITY,			//< 密度推定用
 			//LEAF_TYPE_MANIFOLD			//< 多様体用
 		} LeafNodeType;

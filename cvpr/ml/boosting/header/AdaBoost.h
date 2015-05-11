@@ -55,7 +55,7 @@ namespace cvpr
 			*	@param	feature	入力の特徴ベクトル
 			*	@param	result	出力の予測結果
 			*/
-			virtual int		predict(const cv::Mat &feature, PredictionResult *result);
+			virtual int		predict(const cv::Mat &feature, PredictionResult *result, const PredictionParameter *param = nullptr);
 
 			/**
 			*	学習を実行する

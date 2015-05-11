@@ -14,6 +14,7 @@
     <ClCompile Include="factory\src\StatModelFactory.cpp" />
     <ClCompile Include="boosting\src\AdaBoost.cpp" />
     <ClCompile Include="mlp\src\ConvolutionalNeuralNetwork.cpp" />
+    <ClCompile Include="rf\src\ClassificationTree.cpp" />
     <ClCompile Include="rf\src\LeafNode.cpp" />
     <ClCompile Include="basic\src\LinearRegression.cpp" />
     <ClCompile Include="basic\src\LogisticRegression.cpp" />
@@ -24,7 +25,8 @@
     <ClCompile Include="base\src\PredictionResult.cpp" />
     <ClCompile Include="rf\src\RandomForest.cpp" />
     <ClCompile Include="rf\src\RandomizedTree.cpp" />
-    <ClCompile Include="rf\src\RandomizedTreeFactory.cpp" />
+    <ClCompile Include="factory\src\RandomizedTreeFactory.cpp" />
+    <ClCompile Include="rf\src\RegressionTree.cpp" />
     <ClCompile Include="rf\src\SplitNode.cpp" />
     <ClCompile Include="base\src\StaticalModel.cpp" />
     <ClCompile Include="base\src\TrainingData.cpp" />
@@ -36,6 +38,7 @@
     <ClInclude Include="factory\header\StatModelFactory.h" />
     <ClInclude Include="boosting\header\AdaBoost.h" />
     <ClInclude Include="mlp\header\ConvolutionalNeuralNetwork.h" />
+    <ClInclude Include="rf\header\ClassificationTree.h" />
     <ClInclude Include="rf\header\LeafNode.h" />
     <ClInclude Include="basic\header\LinearRegression.h" />
     <ClInclude Include="basic\header\LogisticRegression.h" />
@@ -46,6 +49,8 @@
     <ClInclude Include="base\header\PredictionResult.h" />
     <ClInclude Include="rf\header\RandomForest.h" />
     <ClInclude Include="rf\header\RandomizedTree.h" />
+    <ClInclude Include="factory\header\RandomizedTreeFactory.h" />
+    <ClInclude Include="rf\header\RegressionTree.h" />
     <ClInclude Include="rf\header\SplitNode.h" />
     <ClInclude Include="base\header\StaticalModel.h" />
     <ClInclude Include="base\header\TrainingData.h" />

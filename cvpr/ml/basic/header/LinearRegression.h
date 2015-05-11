@@ -33,7 +33,7 @@ namespace cvpr
 
 			virtual int		load(const std::string &load_path);
 
-			virtual int		predict(const cv::Mat &feature, PredictionResult *result) = 0;
+			virtual int		predict(const cv::Mat &feature, PredictionResult *result, const PredictionParameter *param = nullptr) = 0;
 
 			virtual int		train(const TrainingSet &train_set, const StaticalModelParameter *param);
 
@@ -98,7 +98,7 @@ namespace cvpr
 	{
 		public:
 			
-			virtual int		predict(const cv::Mat &feature, PredictionResult *result) ;
+			virtual int		predict(const cv::Mat &feature, PredictionResult *result, const PredictionParameter *param = nullptr);
 
 			/**
 			*	回帰用のpredict
@@ -106,7 +106,7 @@ namespace cvpr
 			*	@param	result	予測値
 			*	@return	実行結果 0:成功, else: error
 			*/
-			virtual int		predict(const cv::Mat &feature, RegressionResult &result) ;
+			virtual int		predict(const cv::Mat &feature, RegressionResult &result);
 
 			/**
 			*	線形回帰を学習する

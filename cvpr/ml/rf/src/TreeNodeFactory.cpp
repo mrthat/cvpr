@@ -6,7 +6,6 @@ using namespace TreeNode;
 
 PtrSplitNodeBase	TreeNodeFactory::create_split_node(SplitNodeType node_type, int feature_depth)
 {
-	
 	switch (feature_depth) {
 		case CV_64F:
 			return create_split_node<double>(node_type);
@@ -60,5 +59,7 @@ PtrLeafNodeBase TreeNodeFactory::create_leaf_node(LeafNodeType node_type)
 			return nullptr;
 		case LEAF_TYPE_CLASSIFICATION:
 			return PtrLeafNodeBase(new LeafNodeClassification());
+		case LEAF_TYPE_REGRESSION:
+			return PtrLeafNodeBase(new LeafNodeRegression());
 	}
 }

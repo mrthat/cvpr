@@ -389,6 +389,18 @@ namespace cvpr
 			*/
 			TrainingSet	get_out_of_bag(const TrainingSet &bag) const ;
 
+			/**
+			*	ラベルの行列の平均を求める
+			*	@param	dst	出力の行列
+			*/
+			void compute_label_mean(cv::Mat &dst) const;
+
+			/**
+			*	ラベルの行列の分散を求める
+			*	@return	分散
+			*/
+			double compute_label_var() const;
+
 		protected:
 
 			/** 特徴ベクトルのタイプ */

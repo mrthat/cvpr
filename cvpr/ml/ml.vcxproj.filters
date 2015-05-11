@@ -14,12 +14,14 @@
     <ClCompile Include="mlp\src\MultilayerPerceptron.cpp" />
     <ClCompile Include="rf\src\RandomForest.cpp" />
     <ClCompile Include="rf\src\RandomizedTree.cpp" />
-    <ClCompile Include="rf\src\RandomizedTreeFactory.cpp" />
     <ClCompile Include="rf\src\SplitNode.cpp" />
     <ClCompile Include="rf\src\TreeNode.cpp" />
     <ClCompile Include="rf\src\TreeNodeFactory.cpp" />
     <ClCompile Include="boosting\src\AdaBoost.cpp" />
     <ClCompile Include="factory\src\StatModelFactory.cpp" />
+    <ClCompile Include="rf\src\ClassificationTree.cpp" />
+    <ClCompile Include="factory\src\RandomizedTreeFactory.cpp" />
+    <ClCompile Include="rf\src\RegressionTree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base\header\PredictionResult.h" />
@@ -41,5 +43,8 @@
     <ClInclude Include="boosting\header\AdaBoost.h" />
     <ClInclude Include="base\header\MlDefines.h" />
     <ClInclude Include="factory\header\StatModelFactory.h" />
+    <ClInclude Include="rf\header\ClassificationTree.h" />
+    <ClInclude Include="factory\header\RandomizedTreeFactory.h" />
+    <ClInclude Include="rf\header\RegressionTree.h" />
   </ItemGroup>
 </Project>

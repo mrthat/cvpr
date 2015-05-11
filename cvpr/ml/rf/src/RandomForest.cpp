@@ -1,5 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS 1
 #include "..\header\RandomForest.h"
+#include "..\..\factory\header\RandomizedTreeFactory.h"
 
 using namespace cvpr;
 
@@ -144,7 +145,7 @@ int	RandomForest::load(const std::string &load_path)
 	return 0;
 }
 
-int	RandomForest::predict(const cv::Mat &feature, cvpr::PredictionResult *result)
+int	RandomForest::predict(const cv::Mat &feature, cvpr::PredictionResult *result, const PredictionParameter *param)
 {
 	//‘Stree‚Ìpredict‚ðŒÄ‚Ô
 	std::vector<PtrPredictionResult>	results(this->trees_.size(), nullptr);

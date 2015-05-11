@@ -182,7 +182,7 @@ int		MultilayerPerceptron::load(const std::string &load_path)
 	return 0;
 }
 
-int		MultilayerPerceptron::predict(const cv::Mat &feature, PredictionResult *result) 
+int		MultilayerPerceptron::predict(const cv::Mat &feature, PredictionResult *result, const PredictionParameter *param)
 {
 	cv::Mat	z_i	=	feature;
 	cv::Mat	z_j;

@@ -1,12 +1,11 @@
 #pragma once
 
 #include "..\..\base\header\StaticalModel.h"
-#include "..\..\rf\header\RandomForest.h"
 
 namespace cvpr
 {
-	//! 統計モデルファクトリー基本クラス
-	class StatModelFactoryBase
+	//! 弱識別器ファクトリー なんでも作れるすごいやつ
+	class WeakLearnerFactory
 	{
 		public:
 
@@ -15,22 +14,7 @@ namespace cvpr
 			*	@param	type	生成するモデルの型
 			*	@return	新しいモデル
 			*/
-			virtual PtrStaticalModel create(const StatModelType &type) ;
-
-		protected:
-	};
-
-	//! 弱識別器ファクトリー基本クラス
-	class WeakLearnerFactoryBase
-	{
-		public:
-
-			/**
-			*	生成メソッド
-			*	@param	type	生成するモデルの型
-			*	@return	新しいモデル
-			*/
-			virtual PtrWeakLearner create(const StatModelType &type) ;
+			static PtrWeakLearner create(const StatModelType &type);
 
 		protected:
 	};
@@ -57,20 +41,5 @@ namespace cvpr
 			*	@return	次にプールに加えるモデル
 			*/
 			virtual PtrWeakLearner next_model() = 0;
-	};
-
-	//! 弱識別器としてRandomizedTreeをつかってプールを生成するクラス
-	class ClassificationTreePoolFactory : public WeakLearnerFactoryBase
-	{
-		
-		public:
-
-			ClassificationTreeParameter	param;
-
-		protected:
-			
-			virtual PtrWeakLearnerParam next_param() ;
-
-			virtual PtrWeakLearner next_model() ;
 	};
 };

@@ -1,6 +1,6 @@
 #include "..\ml\rf\header\RandomForest.h"
 #include "..\util\header\DataSetLoader.h"
-#include "..\util\header\PathUtil.h"
+//#include "..\util\header\PathUtil.h"
 
 //! iBUGってグループが出してるface point annotationのクラス
 //! http://ibug.doc.ic.ac.uk/resources/facial-point-annotations/
@@ -93,7 +93,7 @@ int IbugFaceAnnotation::open_pts(const std::string &path_pts)
 		pts.push_back(pt);
 	}
 
-	file_name	=	cvpr::get_file_name(path_pts);
+	//file_name	=	cvpr::get_file_name(path_pts);
 
 	return 0;
 }

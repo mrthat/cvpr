@@ -15,6 +15,7 @@ namespace cvpr
 	*/
 	typedef enum {
 		TREE_TYPE_CLASSIFICATION,	//< クラス識別用tree
+		TREE_TYPE_REGRESSION,		//< 回帰用木
 		TREE_TYPE_UNKNOWN			//< 無効値
 	} TreeType;
 
@@ -75,7 +76,7 @@ namespace cvpr
 
 			virtual int	load(const std::string &load_path) ;
 
-			virtual int	predict(const cv::Mat &feature, PredictionResult *result) ;
+			virtual int	predict(const cv::Mat &feature, PredictionResult *result, const PredictionParameter *param = nullptr);
 
 			virtual int	train(const TrainingSet &train_set, const StaticalModelParameter *param) ;
 
@@ -152,58 +153,4 @@ namespace cvpr
 	};
 
 	typedef std::shared_ptr<RandomizedTree>	PtrRandomizedTree ;
-
-	typedef RandomizedTreeParameter ClassificationTreeParameter;
-
-	/**
-	*	クラス識別用のrandomized tree
-	*/
-	class ClassificationTree : public RandomizedTree
-	{
-		public:
-			
-			virtual TreeType	tree_type() const { return TREE_TYPE_CLASSIFICATION; };
-
-			virtual int	train(const TrainingSet &train_set, const StaticalModelParameter *param)
-			{
-				return RandomizedTree::train(train_set, param);
-			}
-
-		protected:
-
-			virtual void	print_train_log(const TreeNode::PtrSplitNodeBase split, const TrainingSet &train_set) const ;
-
-			TreeNode::LeafNodeType	leaf_type() const { return TreeNode::LEAF_TYPE_CLASSIFICATION; };
-
-			virtual double	calc_entropy_gain(const TrainingSet &train_set, const TrainingSet &left_set, const TrainingSet &right_set, const RandomizedTreeParameter &param) const ;
-
-			virtual void	print_train_log(const TreeNode::PtrLeafNodeBase leaf, const TrainingSet &train_set) const ;
-
-			virtual bool	is_end_growth(const TrainingSet &train_set, const cvpr::RandomizedTreeParameter &param, unsigned tree_height) const ;
-	};
-
-	/**
-	*	randomized treeのファクトリークラス
-	*/
-	class RandomizedTreeFactory
-	{
-		public:
-			virtual ~RandomizedTreeFactory() {};
-
-			/**
-			*	木を生成する
-			*	@param	tree_type	木の種別
-			*	@return	知らない種別:nullptr, その他:有効なぽいんた
-			*/
-			static PtrRandomizedTree	Create(TreeType tree_type)
-			{
-				switch (tree_type) {
-					default:
-						return PtrRandomizedTree(nullptr);
-					case TREE_TYPE_CLASSIFICATION:
-						return PtrRandomizedTree(new ClassificationTree());
-				}
-			}
-		protected:
-	};
 };

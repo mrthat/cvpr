@@ -2,6 +2,7 @@
 //#include <tbb/parallel_for.h>
 #include "..\header\AdaBoost.h"
 #include <numeric>
+#include <direct.h>
 
 using namespace cvpr;
 
@@ -179,7 +180,7 @@ int AdaBoost::load(const std::string &load_path)
 
 	sum_alpha_ = std::accumulate(this->alpha_t_.begin(), this->alpha_t_.end(), 0.0);
 	
-	WeakLearnerFactoryBase factory;
+	WeakLearnerFactory factory;
 
 	for (std::size_t ii = 0; ii < model_types.size(); ++ii) {
 		char sub_dir[256];
@@ -201,7 +202,7 @@ int AdaBoost::load(const std::string &load_path)
 }
 
 
-int AdaBoost::predict(const cv::Mat &feature, PredictionResult *result)
+int AdaBoost::predict(const cv::Mat &feature, PredictionResult *result, const PredictionParameter *param)
 {
 	ClassificationResult	*cresult	=	dynamic_cast<ClassificationResult*>(result);
 

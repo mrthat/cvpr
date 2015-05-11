@@ -224,7 +224,7 @@ LinearModelBase::init_weight(const TrainingSet &train_set, std::mt19937 &rnd)
 	w0_	=	uni_dist(rnd);
 }
 
-int		LinearRegression::predict(const cv::Mat &feature, PredictionResult *result) 
+int		LinearRegression::predict(const cv::Mat &feature, PredictionResult *result, const PredictionParameter *param)
 {
 	RegressionResult	*rresult	=	dynamic_cast<RegressionResult*>(result);
 

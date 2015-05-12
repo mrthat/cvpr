@@ -72,6 +72,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DataReader.cpp" />
+    <ClCompile Include="IbunFaceAnnotation.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -81,6 +83,10 @@
     <ProjectReference Include="..\util\util.vcxproj">
       <Project>{95c83582-6974-4372-a1f0-81441d1441c0}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DataReader.h" />
+    <ClInclude Include="IbunFaceAnnotation.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

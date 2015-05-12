@@ -122,7 +122,7 @@ namespace cvpr
 			
 			std::vector<PtrRandomizedTree>	trees_;	//<要素のtreeを格納するコンテナ
 	};
-	
+
 	/**
 	*	クラス識別用のRandomForestクラス
 	*/
@@ -130,14 +130,32 @@ namespace cvpr
 	{
 		public:
 
-			//using	RandomForest::predict;
+		//using	RandomForest::predict;
 
-			virtual ResultType	result_type() const{ return RESULT_TYPE_CLASSIFICATION; };
+		virtual ResultType	result_type() const{ return RESULT_TYPE_CLASSIFICATION; };
 
 		protected:
-			
-			virtual	cvpr::TreeType	tree_type() const { return TREE_TYPE_CLASSIFICATION; };
 
-			virtual void	merge_results(const std::vector<PtrPredictionResult> &results, PredictionResult *dst) ;
+		virtual	cvpr::TreeType	tree_type() const { return TREE_TYPE_CLASSIFICATION; };
+
+		virtual void	merge_results(const std::vector<PtrPredictionResult> &results, PredictionResult *dst);
+	};
+
+	/**
+	*	クラス識別用のRandomForestクラス
+	*/
+	class RegressionForest : public RandomForest
+	{
+		public:
+
+		//using	RandomForest::predict;
+
+		virtual ResultType	result_type() const{ return RESULT_TYPE_REGRESSION; };
+
+		protected:
+
+		virtual	cvpr::TreeType	tree_type() const { return TREE_TYPE_REGRESSION; };
+
+		virtual void	merge_results(const std::vector<PtrPredictionResult> &results, PredictionResult *dst);
 	};
 };

@@ -248,11 +248,20 @@ double TrainingSet::compute_target_var() const
 
 	for (std::size_t ii = 0; ii < examples_.size(); ++ii) {
 		cv::Mat	tmp;
+		double	*pdata	=	nullptr;
 
 		examples_[ii]->target.convertTo(tmp, CV_64F);
 
+		// ŽáŠ±Œ…‚ª•|‚¢
+		tmp	=	tmp - mean;
+		
+		pdata	=	tmp.ptr<double>();
 
+		for (int jj = 0; jj < cvpr::get_total1(tmp); ++jj) {
+			var	+=	(*pdata)*(*pdata);
+			++pdata;
+		}
 	}
 
-	return 0;
+	return var;
 }

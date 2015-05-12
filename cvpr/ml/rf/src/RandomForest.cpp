@@ -246,12 +246,32 @@ int	RandomForest::load_tree_type(const std::string &data_path, std::vector<cvpr:
 	return 0;
 }
 
-void	ClassificationForest::merge_results(const std::vector<PtrPredictionResult> &results, PredictionResult *dst) 
+void	ClassificationForest::merge_results(const std::vector<PtrPredictionResult> &results, PredictionResult *dst)
 {
 	cv::Mat	average;
 
 	if (results.empty()) {
-		return ;
+		return;
+	}
+
+	average	=	results.front()->get_posterior().clone();
+
+	for (std::size_t ii = 1; ii < results.size(); ++ii) {
+		average	+=	results[ii]->get_posterior();
+	}
+
+	average	/=	(double)results.size();
+
+	dst->set_posterior(average);
+};
+
+void	RegressionForest::merge_results(const std::vector<PtrPredictionResult> &results, PredictionResult *dst)
+{
+	// 一応識別木のコピペを置いとく
+	cv::Mat	average;
+
+	if (results.empty()) {
+		return;
 	}
 
 	average	=	results.front()->get_posterior().clone();

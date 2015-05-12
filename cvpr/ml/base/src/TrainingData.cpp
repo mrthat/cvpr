@@ -62,13 +62,16 @@ bool	TrainingSet::is_valid_example(const PtrTrainingExample &example) const
 
 cv::Mat	TrainingSet::calc_label_sum()const
 {
-	cv::Mat	label_sum((int)label_type_.sizes.size(), &label_type_.sizes[0], label_type_.data_type);
+	cv::Mat	label_sum((int)label_type_.sizes.size(), &label_type_.sizes[0], CV_64FC(label_type_.channels()));
 	cv::Mat	tmp;
 
 	label_sum	=	0;
 
 	for (auto ii = examples_.begin(); ii != examples_.end(); ++ii) {
-		(*ii)->target.convertTo(tmp, CV_64F);
+		if ((*ii)->target.depth() == CV_64F)
+			tmp = (*ii)->target;
+		else
+			(*ii)->target.convertTo(tmp, CV_64F);
 		label_sum	+=	tmp;
 	}
 
@@ -229,7 +232,55 @@ void TrainingSet::compute_target_mean(cv::Mat &dst) const
 	if (examples_.empty())
 		return;
 
-	dst	=	calc_label_sum() / size();
+	cv::Mat	mean((int)label_type_.sizes.size(), &label_type_.sizes[0], CV_64FC(label_type_.channels()));
+
+	mean	=	0;
+
+	for (auto ii = examples_.begin(); ii != examples_.end(); ++ii) {
+		cv::Mat	tmp;
+
+		if ((*ii)->target.depth() == CV_64F)
+			tmp = (*ii)->target;
+		else
+			(*ii)->target.convertTo(tmp, CV_64F);
+
+		double	*pdata	=	tmp.ptr<double>();
+		double	*pdst	=	mean.ptr<double>();
+
+		for (int jj = 0; jj < cvpr::get_total1(tmp); ++jj) {
+			*pdst	+=	*pdata;
+			++pdata;
+			++pdst;
+		}
+
+	}
+
+	dst	=	mean / size();
+}
+
+void TrainingSet::compute_target_mean2(cv::Mat &dst) const
+{
+	if (examples_.empty())
+		return;
+
+	cv::Mat	mean2((int)label_type_.sizes.size(), &label_type_.sizes[0], CV_64FC(label_type_.channels()));
+
+	mean2	=	0;
+
+	for (auto ii = examples_.begin(); ii != examples_.end(); ++ii) {
+		cv::Mat	tmp;
+
+		if ((*ii)->target.depth() == CV_64F)
+			tmp = (*ii)->target;
+		else
+			(*ii)->target.convertTo(tmp, CV_64F);
+
+		mean2	+=	tmp.mul(tmp);
+	}
+
+	mean2	/=	(double)examples_.size();
+
+	mean2.copyTo(dst);
 }
 
 /**
@@ -238,30 +289,83 @@ void TrainingSet::compute_target_mean(cv::Mat &dst) const
 */
 double TrainingSet::compute_target_var() const
 {
-	cv::Mat	mean;
-	double	var	=	0;
 
 	if (examples_.empty())
 		return 0;
 
-	compute_target_mean(mean);
+#if 1
+	cv::Mat	mean;
+	cv::Mat mean2;
+	cv::Mat	tmp;
+	double	var		=	0;
+	double	*pdata	=	nullptr;
 
+	compute_target_mean(mean);
+	
 	for (std::size_t ii = 0; ii < examples_.size(); ++ii) {
 		cv::Mat	tmp;
 		double	*pdata	=	nullptr;
+		double	*pmean	=	nullptr;
 
-		examples_[ii]->target.convertTo(tmp, CV_64F);
+		if (examples_[ii]->target.depth() == CV_64F)
+			tmp = examples_[ii]->target;
+		else
+			examples_[ii]->target.convertTo(tmp, CV_64F);
 
-		// ŽáŠ±Œ…‚ª•|‚¢
-		tmp	=	tmp - mean;
-		
 		pdata	=	tmp.ptr<double>();
+		pmean	=	mean.ptr<double>();
 
 		for (int jj = 0; jj < cvpr::get_total1(tmp); ++jj) {
-			var	+=	(*pdata)*(*pdata);
+			double	diff	=	*pdata - *pmean;
+			var	+=	diff * diff;
 			++pdata;
+			++pmean;
 		}
 	}
+#else
+	// ‰½ŒÌ‚©‚¤‚Ü‚­ŒvŽZ‚Å‚«‚Ä‚È‚¢
+	cv::Mat	mean2((int)label_type_.sizes.size(), &label_type_.sizes[0], CV_64FC(label_type_.channels()));
+	cv::Mat	mean((int)label_type_.sizes.size(), &label_type_.sizes[0], CV_64FC(label_type_.channels()));
+	int		total	=	cvpr::get_total1(mean);
+	double	var		=	0;
+	double	sz2		=	(double)examples_.size() * (double)examples_.size();
+	double	sz		=	(double)examples_.size();
+
+	mean	=	0;
+	mean2	=	0;
+
+	// •½‹Ï‚Æ“ñæ‚Ì•½‹Ï‚ðŒvŽZ
+	for (auto ii = examples_.begin(); ii != examples_.end(); ++ii) {
+		double	*pm		=	mean.ptr<double>();
+		double	*pm2	=	mean2.ptr<double>();
+		double	*pe		=	nullptr;// (*ii)->target.ptr<double>();
+		cv::Mat	tmp;
+
+		if ((*ii)->target.depth() == CV_64F)
+			tmp = (*ii)->target;
+		else
+			(*ii)->target.convertTo(tmp, CV_64F);
+
+		pe	=	tmp.ptr<double>();
+
+		for (int jj = 0; jj < total; ++jj) {
+			*pm		+=	*pe;
+			*pm2	+=	(*pe)*(*pe);
+
+			++pm;
+			++pm2;
+			++pe;
+		}
+	}
+
+	// “ñæ‚Ì•½‹Ï‚©‚ç•½‹Ï‚Ì“ñæ‚ð‚Ð‚­
+	double	*pm		=	mean.ptr<double>();
+	double	*pm2	=	mean2.ptr<double>();
+	for (int ii = 0; ii < total; ++ii) {
+		var	+=	(*pm2) / sz - ((*pm) * (*pm) / sz2);
+	}
+
+#endif
 
 	return var;
 }

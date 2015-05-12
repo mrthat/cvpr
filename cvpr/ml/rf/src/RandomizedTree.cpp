@@ -241,7 +241,7 @@ int	RandomizedTree::grow_tree(const TrainingSet &train_set, const RandomizedTree
 		for (unsigned ii = 0; ii < param.num_splits; ++ii) {
 			SplitNodeType		split_type	=	random_sample<SplitNodeType>(param.split_type_list, rng);
 			PtrSplitNodeBase	new_split	=	TreeNode::TreeNodeFactory::create_split_node(split_type, feature_depth_);
-			double						new_score	=	0;
+			double				new_score	=	0;
 			TrainingSet	left_tmp(feature_type, label_type);
 			TrainingSet	right_tmp(feature_type, label_type);
 

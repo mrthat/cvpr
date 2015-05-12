@@ -48,5 +48,5 @@ void RegressionTree::print_train_log(const TreeNode::PtrLeafNodeBase leaf, const
 {
 	double	leaf_var	=	train_set.compute_target_var();
 
-	printf("leaf_var=%f\n", leaf);
+	printf("leaf_var=%f\n", leaf_var);
 }

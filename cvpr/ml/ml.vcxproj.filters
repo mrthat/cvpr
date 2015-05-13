@@ -22,6 +22,7 @@
     <ClCompile Include="rf\src\ClassificationTree.cpp" />
     <ClCompile Include="factory\src\RandomizedTreeFactory.cpp" />
     <ClCompile Include="rf\src\RegressionTree.cpp" />
+    <ClCompile Include="boosting\src\GradientBoost.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base\header\PredictionResult.h" />
@@ -46,5 +47,6 @@
     <ClInclude Include="rf\header\ClassificationTree.h" />
     <ClInclude Include="factory\header\RandomizedTreeFactory.h" />
     <ClInclude Include="rf\header\RegressionTree.h" />
+    <ClInclude Include="boosting\header\GradientBoosth.h" />
   </ItemGroup>
 </Project>

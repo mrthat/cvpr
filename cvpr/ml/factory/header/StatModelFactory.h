@@ -19,6 +19,22 @@ namespace cvpr
 		protected:
 	};
 
+	/**
+	*	greedyなやつで使うように，ステージ毎に識別器生成して返すクラス
+	*/
+	class StageWiseStatModelFactoryBase
+	{
+		public:
+
+			/**
+			*	<学習済み>の識別器を返す. パラメータは内部で指示すること
+			*	(外の状況をパラメータで渡せるようにすべきか・・・？)
+			*	@param	datas	学習データ
+			*	@return	学習済みモデル
+			*/
+			virtual PtrWeakLearner next(const TrainingSet &datas) = 0;
+	};
+
 	//! 弱識別器の学習済みプールを作成するクラス
 	class WeakLearnerPoolFactoryBase
 	{

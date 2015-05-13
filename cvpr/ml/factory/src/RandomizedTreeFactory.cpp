@@ -19,6 +19,8 @@ PtrWeakLearnerParam ClassificationTreePoolFactory::next_param()
 {
 	PtrWeakLearnerParam	param_	=	PtrWeakLearnerParam(new ClassificationTreeParameter(this->param));
 
+	((ClassificationTreeParameter*)param_.get())->rng_seed	=	rng();
+
 	return param_;
 }
 

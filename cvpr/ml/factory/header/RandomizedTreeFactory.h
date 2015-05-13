@@ -28,9 +28,21 @@ namespace cvpr
 
 		public:
 
-		ClassificationTreeParameter	param;
+		/**
+		*	パラメータ設定
+		*	@param	param	設定するパラメータ
+		*/
+		void set_param(const ClassificationTreeParameter &param_)
+		{
+			this->param	=	param_;
+			rng	=	std::mt19937(param.rng_seed);
+		}
 
 		protected:
+
+		ClassificationTreeParameter	param;
+
+		std::mt19937 rng;
 
 		virtual PtrWeakLearnerParam next_param();
 

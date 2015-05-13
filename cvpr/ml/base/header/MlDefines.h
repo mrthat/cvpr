@@ -7,6 +7,7 @@ namespace cvpr
 		CLASSIFICATION_FOREST,
 		CLASSIFICATION_TREE,
 		ADABOOST,
+		GRADIENT_BOOST,
 		STAT_MODEL,		//< 一応ベースクラス用
 	} StatModelType;
 };

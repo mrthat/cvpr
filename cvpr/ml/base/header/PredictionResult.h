@@ -12,8 +12,8 @@ namespace cvpr
 	*	識別結果のタイプ
 	*/
 	typedef enum {
-		RESULT_TYPE_CLASSIFICATION,			/** クラス識別 */
-		RESULT_TYPE_REGRESSION,				/** 回帰 */
+		RESULT_TYPE_CLASSIFICATION,			//< クラス識別
+		RESULT_TYPE_REGRESSION,				//< 回帰
 	} ResultType;
 
 	/**
@@ -42,7 +42,7 @@ namespace cvpr
 			/**
 			*	識別結果のタイプを取得
 			*/
-			virtual ResultType	type() const = 0; 
+			virtual ResultType	type() const = 0;
 
 			virtual				~PredictionResult() {};
 

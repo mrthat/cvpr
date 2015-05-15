@@ -32,15 +32,6 @@ namespace cvpr
 		protected:
 	};
 
-	/**
-	*	予測パラメータベースクラス
-	*/
-	class PredictionParameter
-	{
-		public:
-		protected:
-	};
-
 	/** 識別器ベースクラス */
 	class StaticalModel
 	{

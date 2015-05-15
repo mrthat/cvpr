@@ -229,6 +229,8 @@ TrainingSet	TrainingSet::get_out_of_bag(const TrainingSet &bag) const
 */
 void TrainingSet::compute_target_mean(cv::Mat &dst) const
 {
+	dst.release();
+
 	if (examples_.empty())
 		return;
 

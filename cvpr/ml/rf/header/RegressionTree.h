@@ -4,6 +4,8 @@
 
 namespace cvpr
 {
+	typedef RandomizedTreeParameter RegressionTreeParameter;
+
 	/**
 	*	‰ñ‹A—p–Ø
 	*/

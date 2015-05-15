@@ -1,6 +1,7 @@
 #include "StatModelFactory.h"
 #include "..\..\rf\header\RandomizedTree.h"
 #include "..\..\rf\header\ClassificationTree.h"
+#include "..\..\rf\header\RegressionTree.h"
 
 namespace cvpr
 {
@@ -47,5 +48,31 @@ namespace cvpr
 		virtual PtrWeakLearnerParam next_param();
 
 		virtual PtrWeakLearner next_model();
+	};
+
+	//! GradientBoost向けステージ毎生成
+	class StageWiseRegressionTreeFactory : public StageWiseStatModelFactoryBase
+	{
+		public:
+
+			virtual PtrWeakLearner next(const TrainingSet &datas) ;
+
+			/**
+			*	新しい木の学習毎に使用されるパラメータを設定する
+			*/
+			void set_param(const RegressionTreeParameter &param_)
+			{
+				param	=	param_;
+				rng		=	std::mt19937(param.rng_seed);
+			}
+
+		protected:
+
+			//! 新しい木の生成毎に学習に使用されるパラメータ
+			//! 乱数のシードは書き換えられる
+			RegressionTreeParameter param;
+
+			//! 乱数のシードを生成する乱数(ホントはこう使うのは良くないが)
+			std::mt19937 rng;
 	};
 };

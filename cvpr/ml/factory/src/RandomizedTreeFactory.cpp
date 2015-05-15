@@ -28,3 +28,16 @@ PtrWeakLearner ClassificationTreePoolFactory::next_model()
 {
 	return PtrWeakLearner(new ClassificationTree());
 }
+
+PtrWeakLearner StageWiseRegressionTreeFactory::next(const TrainingSet &datas)
+{
+	RegressionTreeParameter	nparam	=	param;
+	auto	tree	=	RandomizedTreeFactory::Create(TREE_TYPE_REGRESSION);
+
+	nparam.rng_seed	=	rng();
+	
+	if (0 == tree->train(datas, nparam))
+		return tree;
+	else
+		return nullptr;
+}

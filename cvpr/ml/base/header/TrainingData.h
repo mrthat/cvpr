@@ -6,6 +6,7 @@
 #include	<array>
 #include	<memory>
 #include	<opencv2\core\core.hpp>
+#include	"PredictionParameter.h"
 #include	"utils.h"
 
 namespace cvpr
@@ -27,9 +28,12 @@ namespace cvpr
 			*	@param	feature	特徴ベクトル
 			*	@param	label	ラベル
 			*/
-			TrainingExample(cv::Mat feature, cv::Mat target)
-				: feature(feature), target(target) {};
+			TrainingExample(cv::Mat feature, cv::Mat target, PtrPredictionParameter param_ = nullptr)
+				: feature(feature), target(target), param(param_) {};
 
+			/**
+			*	デストラクタ
+			*/
 			virtual	~TrainingExample() {};
 
 			/**
@@ -43,19 +47,15 @@ namespace cvpr
 			cv::Mat	target;
 
 			/**
-			*	label内の最大要素のidxを取得
-			*	@return	label内の最大要素のidx
+			*	サンプルに紐づく予測用パラメータがアレば入れる(nullもOKとする)
 			*/
-			int	label() const
-			{
-				return max_idx(target);
-			}
+			PtrPredictionParameter	param;
 
 			/**
 			*	label内の最大要素のidxを取得
 			*	@return	label内の最大要素のidx
 			*/
-			int	label_max_idx() const
+			int	label() const
 			{
 				return max_idx(target);
 			}

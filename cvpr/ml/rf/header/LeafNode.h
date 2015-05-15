@@ -18,12 +18,8 @@ namespace cvpr
 				int				operator()(const cv::Mat &feature, PredictionResult *result)
 				{
 					// ƒƒ“ƒo‚É‚Á‚Ä‚é–ŒãŠm—¦‚ğ•Ô‚·
-					ClassificationResult	*dst	=	dynamic_cast<ClassificationResult*>(result);
-					if (nullptr == dst) {
-						return -1;
-					}
-
-					dst->set_posterior(posterior_);
+					
+					result->set_posterior(posterior_);
 
 					return 0;
 				}

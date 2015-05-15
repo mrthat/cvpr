@@ -179,12 +179,10 @@ int AdaBoost::load(const std::string &load_path)
 	cv::read(cvfs["types"], model_types);
 
 	sum_alpha_ = std::accumulate(this->alpha_t_.begin(), this->alpha_t_.end(), 0.0);
-	
-	WeakLearnerFactory factory;
 
 	for (std::size_t ii = 0; ii < model_types.size(); ++ii) {
 		char sub_dir[256];
-		PtrWeakLearner	wl	=	factory.create((StatModelType)model_types[ii]);
+		PtrWeakLearner	wl	=	WeakLearnerFactory::create((StatModelType)model_types[ii]);
 
 		if (nullptr == wl) {
 			return -1;

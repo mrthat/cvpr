@@ -1,5 +1,7 @@
 #include "..\ml\rf\header\RandomForest.h"
 #include "..\util\header\DataSetLoader.h"
+#include "..\ml\boosting\header\GradientBoosth.h"
+#include "..\ml\factory\header\RandomizedTreeFactory.h"
 //#include "..\util\header\PathUtil.h"
 #include <random>
 #include "DataReader.h"
@@ -10,13 +12,29 @@ int main()
 	cvpr::TrainingSet datas = DataReader::wine("C:\\git\\cvpr\\datasets\\UCI\\wine\\winequality-white.csv");
 	cvpr::TrainingSet tr = datas.random_sample(0.7, rng);
 	cvpr::TrainingSet ts = datas.get_out_of_bag(tr);
-
+	/*
 	cvpr::RegressionForest rf;
 	cvpr::RandomForestParameter	param;
 
 	param.split_type_list = cvpr::RandomForestParameter::default_split_list();
 
 	rf.train(tr, &param);
+	*/
+
+	cvpr::GradientBoost	rf;
+	cvpr::GradientBoostParameter	param;
+	cvpr::StageWiseRegressionTreeFactory	factory;
+	cvpr::RegressionTreeParameter	wparam;
+
+	param.factory	=	&factory;
+	param.nr_rounds	=	5;
+	param.shrinkage	=	0.6;
+	
+	wparam.split_type_list	=	cvpr::RandomizedTreeParameter::default_split_list();
+	factory.set_param(wparam);
+	
+	if (0 != rf.train(tr, &param))
+		puts("ugaaaa");
 
 	double err = 0;
 

@@ -6,7 +6,7 @@ using namespace cvpr;
 int		GradientBoost::save(const std::string &save_path) const
 {
 	_mkdir(save_path.c_str());
-	cv::FileStorage	cvfs(get_data_path(save_path), cv::FileStorage::WRITE);
+	cv::FileStorage		cvfs(get_data_path(save_path), cv::FileStorage::WRITE);
 	std::vector<int>	learner_types;
 
 	if (!cvfs.isOpened())
@@ -19,11 +19,49 @@ int		GradientBoost::save(const std::string &save_path) const
 	for (std::size_t ii = 0; ii < weak_learner.size(); ++ii)
 		learner_types.push_back(weak_learner[ii]->get_type());
 
+	cv::write(cvfs, STRINGIZE(learner_types), learner_types);
+
+	for (std::size_t ii = 0; ii < weak_learner.size(); ++ii) {
+		std::string	model_path	=	save_path + "\\model" + std::to_string(ii);
+		int	state	=	weak_learner[ii]->save(model_path);
+
+		if (0 != state)
+			return state;
+	}
+
 	return 0;
 }
 
 int		GradientBoost::load(const std::string &load_path)
 {
+	cv::FileStorage	cvfs(get_data_path(load_path), cv::FileStorage::READ);
+	std::vector<int>	learner_types;
+
+	release();
+
+	if (!cvfs.isOpened())
+		return -1;
+
+	cv::read(cvfs[STRINGIZE(shrinkage)], shrinkage, -1);
+	cv::read(cvfs[STRINGIZE(f0)], f0);
+	cv::read(cvfs[STRINGIZE(learner_types)], learner_types);
+
+	for (std::size_t ii = 0; ii < learner_types.size(); ++ii) {
+		PtrWeakLearner	model	=	WeakLearnerFactory::create((StatModelType)learner_types[ii]);
+
+		if (nullptr == model)
+			return -1;
+
+		std::string	model_path	=	load_path + "\\model" + std::to_string(ii);
+
+		int	state	=	model->load(model_path);
+
+		if (0 != state)
+			return state;
+
+		weak_learner.push_back(model);
+	}
+
 	return 0;
 }
 
@@ -40,8 +78,9 @@ int		GradientBoost::predict(const cv::Mat &feature, PredictionResult *result, co
 
 		int	state	=	weak_learner[ii]->predict(feature, &tmp, param);
 
-		if (0 != state)
+		if (0 != state) {
 			return state;
+		}
 
 		posterior	+=	tmp.get_posterior() * shrinkage;
 	}
@@ -80,17 +119,19 @@ int GradientBoost::train(const TrainingSet &datas, const GradientBoostParameter 
 		TrainingSet		curr_set	=	calc_next_target(datas, param);
 		PtrWeakLearner	fk			=	nullptr;
 
-		if (curr_set.size() == 0)
+		if (curr_set.size() == 0) {
 			return -1;
+		}
 
 		// 残差を監視して収束判定した方がいい気もするがとりあえず放置
 
 
 		// 学習もする想定で重いので注意
-		fk	=	param.factory->next(datas);
+		fk	=	param.factory->next(curr_set);
 
-		if (nullptr == fk)
+		if (nullptr == fk) {
 			return -1;
+		}
 
 		weak_learner.push_back(fk);
 

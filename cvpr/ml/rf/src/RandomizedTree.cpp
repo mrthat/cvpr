@@ -105,7 +105,7 @@ int	RandomizedTree::predict(const cv::Mat &feature, PredictionResult *result, co
 	PtrLeafNodeBase	target_leaf	=	std::static_pointer_cast<LeafNodeBase, NodeBase>(target_node);
 	target_leaf->operator()(feature, result);
 
-	return target_leaf->node_id;
+	return 0;
 }
 
 int	RandomizedTree::train(const TrainingSet &train_set, const StaticalModelParameter *param)

@@ -13,6 +13,8 @@ namespace cvpr
 	{
 		public:
 
+		virtual StatModelType get_type() const { return StatModelType::CLASSIFICATION_TREE; }
+
 		virtual TreeType	tree_type() const { return TREE_TYPE_CLASSIFICATION; };
 
 		virtual int	train(const TrainingSet &train_set, const StaticalModelParameter *param)

@@ -13,6 +13,8 @@ namespace cvpr
 	{
 		public:
 
+		virtual StatModelType get_type() const { return StatModelType::REGRESSION_TREE; }
+
 		virtual TreeType tree_type() const { return TREE_TYPE_REGRESSION; }
 
 		using RandomizedTree::train;

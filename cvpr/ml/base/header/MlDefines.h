@@ -6,6 +6,7 @@ namespace cvpr
 	typedef enum {
 		CLASSIFICATION_FOREST,
 		CLASSIFICATION_TREE,
+		REGRESSION_TREE,
 		ADABOOST,
 		GRADIENT_BOOST,
 		STAT_MODEL,		//< 一応ベースクラス用

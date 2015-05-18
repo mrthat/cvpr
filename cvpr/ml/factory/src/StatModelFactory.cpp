@@ -1,6 +1,7 @@
 #include "..\header\StatModelFactory.h"
 #include "..\..\rf\header\ClassificationTree.h"
 #include "..\..\rf\header\RandomForest.h"
+#include "..\..\rf\header\RegressionTree.h"
 
 using namespace cvpr;
 
@@ -11,6 +12,8 @@ PtrWeakLearner WeakLearnerFactory::create(const StatModelType &type)
 			return PtrWeakLearner(new ClassificationTree());
 		case StatModelType::CLASSIFICATION_FOREST:
 			return PtrWeakLearner(new ClassificationForest());
+		case StatModelType::REGRESSION_TREE:
+			return PtrWeakLearner(new RegressionTree());
 		default:
 			return nullptr;
 	}

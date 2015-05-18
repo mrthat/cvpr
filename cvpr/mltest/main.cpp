@@ -22,19 +22,23 @@ int main()
 	*/
 
 	cvpr::GradientBoost	rf;
+	cvpr::GradientBoost	rf2;
 	cvpr::GradientBoostParameter	param;
 	cvpr::StageWiseRegressionTreeFactory	factory;
 	cvpr::RegressionTreeParameter	wparam;
 
 	param.factory	=	&factory;
-	param.nr_rounds	=	5;
+	param.nr_rounds	=	3;
 	param.shrinkage	=	0.6;
 	
 	wparam.split_type_list	=	cvpr::RandomizedTreeParameter::default_split_list();
 	factory.set_param(wparam);
 	
-	if (0 != rf.train(tr, &param))
+	if (0 != rf2.train(tr, &param))
 		puts("ugaaaa");
+
+	rf2.save("rf2");
+	rf.load("rf2");
 
 	double err = 0;
 

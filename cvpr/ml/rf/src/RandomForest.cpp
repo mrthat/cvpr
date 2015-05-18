@@ -153,7 +153,7 @@ int	RandomForest::predict(const cv::Mat &feature, cvpr::PredictionResult *result
 
 	for (std::size_t ii = 0; ii < this->trees_.size(); ++ii) {
 		results[ii]	=	PredictionResultFactory::create(result_type());
-		int	predict_result	=	this->trees_[ii]->predict(feature, results[ii].get());
+		int	predict_result	=	this->trees_[ii]->predict(feature, results[ii].get(), param);
 		if (predict_result < 0) {
 			is_prediction_succeed	=	false;
 		}

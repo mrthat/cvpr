@@ -72,19 +72,8 @@ int	SplitNodeBase::train(const TrainingSet &train_set, std::mt19937 &rnd, Traini
 	//”ÍˆÍ“à‚Å2‰ÓŠcut point‚ğƒ‰ƒ“ƒ_ƒ€‚ÉŒˆ‚ß‚é
 	for (unsigned ii = 0; ii < NUM_CUTPOINT; ++ii) {
 		std::uniform_real_distribution<>	real_dst(min_kernel_value, max_kernel_value);
-//		double rnd_value			=	rnd() / static_cast<double>(rnd.max() - rnd.min());
 		double rnd_value			=	real_dst(rnd);
 
-		/*
-		if (fabs(rnd_value - 1.0) < std::numeric_limits<double>::min()) {
-			rnd_value	-=	std::numeric_limits<double>::min();
-		}
-
-		if (rnd_value < std::numeric_limits<double>::min()) {
-			rnd_value	=	std::numeric_limits<double>::min();
-		}
-		*/
-		//this->cut_points_[ii]	=	rnd_value * kernel_value_range + min_kernel_value;
 		this->cut_points_[ii]	=	rnd_value ;
 	}
 

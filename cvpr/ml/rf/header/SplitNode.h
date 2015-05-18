@@ -6,8 +6,12 @@ namespace cvpr
 {
 	namespace TreeNode
 	{
+		//! 乱数が非常に小さかった場合に代わりに使う値
 		const double DELTA	=	0.0001f;
 
+		/**
+		*	軸並行で分割する
+		*/
 		template<typename ty>
 		class SplitNodeAxisAligned : public TreeNode::SplitNodeBase
 		{
@@ -378,6 +382,24 @@ namespace cvpr
 					acc	/=	roi.area();
 					return acc;
 				}
+		};
+
+		/**
+		*	パラメータで渡された形状点からの相対位置を使用して
+		*	splitするクラス．
+		*/
+		template<typename ty>
+		class SplitNodeShapeIndexed : public TreeNode::SplitNodeBase
+		{
+			public:
+			protected:
+
+				//! 使用する形状点のインデックス
+				std::size_t	shape_index;
+
+				//! 形状からのオフセット 形状データは2dを想定
+				std::vector<cv::Point2d>	offset;
+
 		};
 	};
 };

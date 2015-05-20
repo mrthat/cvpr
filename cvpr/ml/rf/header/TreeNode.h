@@ -31,6 +31,7 @@ namespace cvpr
 			SPLIT_TYPE_MIN,			//< 2点とってmin
 			SPLIT_TYPE_HAAR,		//< haarの出力でカット
 			SPLIT_TYPE_HAAR_INT,	//< 上と同じだが，入力がintegral imageになってる場合
+			SPLIT_TYPE_SHAPE_INDEXED, //< パラメータ点からの相対位置で分割
 			SPLIT_TYPE_LAST			//< 末尾だよ～＾＾
 		} SplitNodeType;
 
@@ -95,6 +96,18 @@ namespace cvpr
 		};
 
 		/**
+		*	分割ノードの分割時のパラメータベースクラス
+		*/
+		class SplitNodeParameterBase : public PredictionParameter
+		{
+			public:
+
+				virtual ~SplitNodeParameterBase() {};
+
+			protected:
+		};
+
+		/**
 		*	分割ノードベースクラス
 		*/
 		class SplitNodeBase
@@ -134,7 +147,7 @@ namespace cvpr
 				*	分割処理
 				*	@return	LEFT or RIGHT
 				*/
-				virtual int				operator()(const cv::Mat &feature) const ;
+				virtual int				operator()(const cv::Mat &feature, const SplitNodeParameterBase *param) const;
 
 				/**
 				*	データセットまとめて分割
@@ -142,7 +155,7 @@ namespace cvpr
 				*	@param	left_set	分割結果LEFTのサンプルを入れるset
 				*	@param	right_set	分割結果RIGHTのサンプル入れるset
 				*/
-				virtual void			operator()(const TrainingSet &train_set, TrainingSet &left_set, TrainingSet &right_set) const ;
+				virtual void			operator()(const TrainingSet &train_set, TrainingSet &left_set, TrainingSet &right_set) const;
 
 				/**
 				*	パラメータ学習する
@@ -152,7 +165,7 @@ namespace cvpr
 				*	@param	right		学習後時にRIGHTに分割されたサンプルを入れる(オプション)
 				*	@return	0:成功, -1:失敗
 				*/
-				virtual int				train(const TrainingSet &train_set, std::mt19937 &rnd, TrainingSet *left = nullptr, TrainingSet *right = nullptr) ;
+				virtual int				train(const TrainingSet &train_set, std::mt19937 &rnd, TrainingSet *left = nullptr, TrainingSet *right = nullptr);
 
 				virtual int	save(cv::FileStorage &cvfs) const ;
 
@@ -194,7 +207,7 @@ namespace cvpr
 				*	@param	feature	特徴ベクトル
 				*	@return	カーネル値
 				*/
-				virtual double			kernel_function(const cv::Mat &feature) const	=	0;
+				virtual double			kernel_function(const cv::Mat &feature, const SplitNodeParameterBase *param) const	=	0;
 
 				/**
 				*	カーネル関数の計算結果から左or右を判定して返す

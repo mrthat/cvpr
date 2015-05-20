@@ -84,6 +84,7 @@ int	RandomizedTree::load(const std::string &load_path)
 int	RandomizedTree::predict(const cv::Mat &feature, PredictionResult *result, const PredictionParameter *param)
 {
 	PtrNodeBase	target_node(nullptr);
+	const SplitNodeParameterBase	*param_	=	dynamic_cast<const SplitNodeParameterBase*>(param);
 
 	if (this->nodes_.empty()) {
 		return -1;
@@ -93,7 +94,7 @@ int	RandomizedTree::predict(const cv::Mat &feature, PredictionResult *result, co
 
 	while (target_node->get_node_type() == TreeNode::NODE_TYPE_SPLIT) {
 		PtrSplitNodeBase	target_split	=	std::static_pointer_cast<SplitNodeBase, NodeBase>(target_node);
-		int					split_result	=	target_split->operator()(feature);
+		int					split_result	=	target_split->operator()(feature, param_);
 
 		if (TreeNode::SplitNodeBase::LEFT == split_result) {
 			target_node	=	this->nodes_[target_node->left_node_id];

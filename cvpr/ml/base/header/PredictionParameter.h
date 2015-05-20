@@ -9,6 +9,9 @@ namespace cvpr
 	class PredictionParameter
 	{
 		public:
+
+			virtual ~PredictionParameter(){};
+
 		protected:
 	};
 

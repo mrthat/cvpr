@@ -26,12 +26,12 @@ int	NodeBase::load(cv::FileStorage &cvfs)
 	return 0;
 }
 
-int	SplitNodeBase::operator()(const cv::Mat &feature) const
+int	SplitNodeBase::operator()(const cv::Mat &feature, const SplitNodeParameterBase *param) const
 {
 
 	double			kernel_value	=	0;
 
-	kernel_value	=	kernel_function(feature);
+	kernel_value	=	kernel_function(feature, param);
 
 	return split(kernel_value);
 }
@@ -39,8 +39,10 @@ int	SplitNodeBase::operator()(const cv::Mat &feature) const
 void	SplitNodeBase::operator()(const TrainingSet &train_set, TrainingSet &left_set, TrainingSet &right_set) const
 {
 	for (unsigned ii = 0; ii < train_set.size(); ++ii) {
-		const PtrTrainingExample target_example	=	train_set[ii];
-		if (LEFT == this->operator()(target_example->feature)) {
+		const PtrTrainingExample		target_example	=	train_set[ii];
+		const SplitNodeParameterBase	*param			=	dynamic_cast<const SplitNodeParameterBase*>(train_set[ii]->param.get());
+
+		if (LEFT == this->operator()(target_example->feature, param)) {
 			left_set.push_back(target_example);
 		} else {
 			right_set.push_back(target_example);
@@ -60,8 +62,10 @@ int	SplitNodeBase::train(const TrainingSet &train_set, std::mt19937 &rnd, Traini
 	//全データ舐めてカーネルの値の範囲を調べる
 	for (unsigned ii = 0; ii < train_set.size(); ++ii) {
 		double			kernel_value;
+		const SplitNodeParameterBase	*param	=	dynamic_cast<const SplitNodeParameterBase*>(train_set[ii]->param.get());
 
-		kernel_value		=	kernel_function(train_set.operator[](ii)->feature);
+
+		kernel_value		=	kernel_function(train_set.operator[](ii)->feature, param);
 		min_kernel_value	=	std::min<double>(min_kernel_value, kernel_value);
 		max_kernel_value	=	std::max<double>(max_kernel_value, kernel_value);
 		kernel_vals[ii]		=	kernel_value;

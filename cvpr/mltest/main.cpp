@@ -28,9 +28,11 @@ int main()
 	cvpr::RegressionTreeParameter	wparam;
 
 	param.factory	=	&factory;
-	param.nr_rounds	=	3;
+	param.nr_rounds	=	30;
 	param.shrinkage	=	0.6;
-	
+
+	wparam.max_height = 5;
+	wparam.num_splits = 500;
 	wparam.split_type_list	=	cvpr::RandomizedTreeParameter::default_split_list();
 	factory.set_param(wparam);
 	

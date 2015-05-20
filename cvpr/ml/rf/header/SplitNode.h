@@ -16,7 +16,9 @@ namespace cvpr
 		class SplitNodeAxisAligned : public TreeNode::SplitNodeBase
 		{
 			public:
+
 				SplitNodeAxisAligned() {};
+
 				SplitNodeType	get_split_type() const { return SPLIT_TYPE_AXISALIGNED; };
 				
 				virtual int	save(cv::FileStorage &cvfs) const
@@ -31,9 +33,12 @@ namespace cvpr
 
 			protected:
 				enum {NUM_SELECT_FEATURES = 1};
+
 				unsigned	get_num_attributes() const { return NUM_SELECT_FEATURES; };
+
 				void		init_params(const TrainingSet &train_set, std::mt19937 &rnd) {};
-				double		kernel_function(const cv::Mat &feature) const
+
+				double		kernel_function(const cv::Mat &feature, const SplitNodeParameterBase *param) const
 				{					
 					const ty	*data_head	=	reinterpret_cast<const ty*>(feature.data);
 					return *(data_head + this->attributes_[0]);
@@ -45,6 +50,7 @@ namespace cvpr
 		{
 			public:
 				SplitNodeOrientedLine() : line_params_(NUM_PARAMS, 0) {};
+
 				SplitNodeType	get_split_type() const { return SPLIT_TYPE_LINE; };
 				
 				virtual int	save(cv::FileStorage &cvfs) const
@@ -68,9 +74,13 @@ namespace cvpr
 				}
 
 			protected:
+
 				enum {NUM_SELECT_FEATURES = 2};
+
 				enum {NUM_PARAMS = 3};
+
 				unsigned	get_num_attributes() const { return NUM_SELECT_FEATURES; };
+
 				void		init_params(const TrainingSet &train_set, std::mt19937 &rnd)
 				{
 					for (unsigned ii = 0; ii < this->line_params_.size(); ++ii) {
@@ -84,7 +94,7 @@ namespace cvpr
 					}
 				}
 
-				double		kernel_function(const cv::Mat &feature) const
+				double		kernel_function(const cv::Mat &feature, const SplitNodeParameterBase *param) const
 				{
 					const ty	*data_head	=	reinterpret_cast<const ty*>(feature.data);
 					ty	val0	=	*(data_head + this->attributes_[0]);
@@ -92,6 +102,7 @@ namespace cvpr
 					//a * x + b * y + c
 					return	val0 * this->line_params_[0] + val1 * this->line_params_[1] + this->line_params_[2];
 				}
+
 				std::vector<double>	line_params_;
 		};
 		
@@ -99,7 +110,9 @@ namespace cvpr
 		class SplitNodeConicSection : public cvpr::TreeNode::SplitNodeBase
 		{
 			public:
+
 				SplitNodeConicSection() : conic_params_(NUM_PARAMS, 0.0f) {};
+
 				SplitNodeType	get_split_type() const { return SPLIT_TYPE_CONIC; };
 
 				virtual int	save(cv::FileStorage &cvfs) const
@@ -123,9 +136,13 @@ namespace cvpr
 				}
 
 			protected:
+
 				enum {NUM_SELECT_FEATURES = 2};
+
 				enum {NUM_PARAMS = 6};
+
 				unsigned	get_num_attributes() const { return NUM_SELECT_FEATURES; };
+
 				void		init_params(const TrainingSet &train_set, std::mt19937 &rnd)
 				{
 					for (unsigned ii = 0; ii < this->conic_params_.size(); ++ii) {
@@ -143,7 +160,8 @@ namespace cvpr
 						}
 					}
 				}
-				double		kernel_function(const cv::Mat &feature) const
+
+				double		kernel_function(const cv::Mat &feature, const SplitNodeParameterBase *param) const
 				{
 					const ty	*data_head	=	reinterpret_cast<const ty*>(feature.data);
 					double	xx	=	*(data_head + this->attributes_[0]);
@@ -163,14 +181,20 @@ namespace cvpr
 		class SplitNodeAtan : public TreeNode::SplitNodeBase
 		{
 			public:
+
 				SplitNodeAtan() {};
+
 				SplitNodeType	get_split_type() const { return SPLIT_TYPE_ATAN; };
 
 			protected:
+
 				enum {NUM_SELECT_FEATURES = 2};
+
 				unsigned	get_num_attributes() const { return NUM_SELECT_FEATURES; };
+
 				void		init_params(const TrainingSet &train_set, std::mt19937 &rnd) {};
-				double		kernel_function(const cv::Mat &feature) const
+
+				double		kernel_function(const cv::Mat &feature, const SplitNodeParameterBase *param) const
 				{
 					const ty	*data_head	=	reinterpret_cast<const ty*>(feature.data);
 					double	xx	=	*(data_head + this->attributes_[0]);
@@ -183,14 +207,20 @@ namespace cvpr
 		class SplitNodeMin : public TreeNode::SplitNodeBase
 		{
 			public:
+
 				SplitNodeMin() {};
+
 				SplitNodeType	get_split_type() const { return SPLIT_TYPE_MIN; };
 
 			protected:
+
 				enum {NUM_SELECT_FEATURES = 2};
+
 				unsigned	get_num_attributes() const { return NUM_SELECT_FEATURES; };
+
 				void		init_params(const TrainingSet &train_set, std::mt19937 &rnd) {};
-				double		kernel_function(const cv::Mat &feature) const
+
+				double		kernel_function(const cv::Mat &feature, const SplitNodeParameterBase *param) const
 				{
 					const ty	*data_head	=	reinterpret_cast<const ty*>(feature.data);
 					double	xx	=	*(data_head + this->attributes_[0]);
@@ -256,7 +286,7 @@ namespace cvpr
 				std::vector<cv::Rect>	roi_;
 				std::vector<int>		coi_;
 
-				unsigned	get_num_attributes() const { return NUM_SELECT_FEATURES; };				
+				unsigned	get_num_attributes() const { return NUM_SELECT_FEATURES; };
 
 				virtual double	CalcIntegral(const cv::Mat &feature, const cv::Rect &roi, int coi) const
 				{
@@ -330,7 +360,7 @@ namespace cvpr
 					}
 
 				};
-				virtual double			kernel_function(const cv::Mat &feature) const
+				virtual double			kernel_function(const cv::Mat &feature, const SplitNodeParameterBase *param) const
 				{
 					return CalcIntegral(feature, this->roi_[0], this->coi_[0]) - CalcIntegral(feature, this->roi_[1], this->coi_[1]);
 					//return feature.at<ty>(0, 0) - feature.at<ty>(1, 0);
@@ -342,8 +372,11 @@ namespace cvpr
 		class SplitNodeHaarIntegral : public SplitNodeHaar<ty>
 		{
 			public:
+
 				virtual SplitNodeType	get_split_type() const { return SPLIT_TYPE_HAAR_INT; };
+
 			protected:
+
 				virtual double	CalcIntegral(const cv::Mat &feature, const cv::Rect &roi, int coi) const
 				{
 #ifdef _DEBUG
@@ -384,6 +417,16 @@ namespace cvpr
 				}
 		};
 
+		//! 形状参照分割ノードのパラメータ
+		class ShapeIndexedSplitParameter : public SplitNodeParameterBase
+		{
+			public:
+				//! 形状
+				std::vector<cv::Point2d>	shape;
+
+			protected:
+		};
+
 		/**
 		*	パラメータで渡された形状点からの相対位置を使用して
 		*	splitするクラス．
@@ -392,7 +435,16 @@ namespace cvpr
 		class SplitNodeShapeIndexed : public TreeNode::SplitNodeBase
 		{
 			public:
+			
+				SplitNodeType get_split_type() const { return SPLIT_TYPE_SHAPE_INDEXED; };
+
 			protected:
+
+				unsigned get_num_attributes() const { return 0; }
+
+				void init_params(const TrainingSet &train_set, std::mt19937 &rnd);
+
+				double kernel_function(const cv::Mat &feature, const SplitNodeParameterBase *param) const;
 
 				//! 使用する形状点のインデックス
 				std::size_t	shape_index;

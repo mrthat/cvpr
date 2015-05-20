@@ -15,14 +15,14 @@ bool	TrainingSet::push_back(const PtrTrainingExample &example)
 
 double	TrainingSet::compute_label_entropy() const 
 {
-	cv::Mat		label_sum	=	calc_label_sum();
+	cv::Mat		label_sum		=	calc_label_sum();
 	int			num_label_elem	=	get_total1(label_sum);
-	double		total_votes	=	0.0;
-	double		*ptr_data	=	label_sum.ptr<double>();
-	double		entropy		=	0.0;
+	double		total_votes		=	0.0;
+	double		*ptr_data		=	label_sum.ptr<double>();
+	double		entropy			=	0.0;
 	
 	// ラベルの値の総数を求める
-	for (std::size_t ii = 0; ii < num_label_elem; ++ii) {
+	for (int ii = 0; ii < num_label_elem; ++ii) {
 		total_votes	+=	ptr_data[ii];
 	}
 
@@ -32,7 +32,7 @@ double	TrainingSet::compute_label_entropy() const
 	}
 
 	// ラベルの各次元についてエントロピーを求めて足す
-	for (std::size_t ii = 0; ii < num_label_elem; ++ii) {
+	for (int ii = 0; ii < num_label_elem; ++ii) {
 		double	label_prob	=	ptr_data[ii] / total_votes;
 
 		// 生起確率が十分小さかったらエントロピー0

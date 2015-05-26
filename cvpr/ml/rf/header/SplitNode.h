@@ -36,7 +36,7 @@ namespace cvpr
 
 				unsigned	get_num_attributes() const { return NUM_SELECT_FEATURES; };
 
-				void		init_params(const TrainingSet &train_set, std::mt19937 &rnd) {};
+				void		init_params(const TrainingSet &train_set, const StaticalModelParameter *param, std::mt19937 &rnd) {};
 
 				double		kernel_function(const cv::Mat &feature, const SplitNodeParameterBase *param) const
 				{					
@@ -81,7 +81,7 @@ namespace cvpr
 
 				unsigned	get_num_attributes() const { return NUM_SELECT_FEATURES; };
 
-				void		init_params(const TrainingSet &train_set, std::mt19937 &rnd)
+				void		init_params(const TrainingSet &train_set, const StaticalModelParameter *param, std::mt19937 &rnd)
 				{
 					for (unsigned ii = 0; ii < this->line_params_.size(); ++ii) {
 		
@@ -143,7 +143,7 @@ namespace cvpr
 
 				unsigned	get_num_attributes() const { return NUM_SELECT_FEATURES; };
 
-				void		init_params(const TrainingSet &train_set, std::mt19937 &rnd)
+				void		init_params(const TrainingSet &train_set, const StaticalModelParameter *param, std::mt19937 &rnd)
 				{
 					for (unsigned ii = 0; ii < this->conic_params_.size(); ++ii) {
 						//[0..1]
@@ -192,7 +192,7 @@ namespace cvpr
 
 				unsigned	get_num_attributes() const { return NUM_SELECT_FEATURES; };
 
-				void		init_params(const TrainingSet &train_set, std::mt19937 &rnd) {};
+				void		init_params(const TrainingSet &train_set, const StaticalModelParameter *param, std::mt19937 &rnd) {};
 
 				double		kernel_function(const cv::Mat &feature, const SplitNodeParameterBase *param) const
 				{
@@ -218,7 +218,7 @@ namespace cvpr
 
 				unsigned	get_num_attributes() const { return NUM_SELECT_FEATURES; };
 
-				void		init_params(const TrainingSet &train_set, std::mt19937 &rnd) {};
+				void		init_params(const TrainingSet &train_set, const StaticalModelParameter *param, std::mt19937 &rnd) {};
 
 				double		kernel_function(const cv::Mat &feature, const SplitNodeParameterBase *param) const
 				{
@@ -327,7 +327,7 @@ namespace cvpr
 					return acc;
 				}
 				
-				virtual void			init_params(const TrainingSet &train_set, std::mt19937 &rnd)
+				virtual void			init_params(const TrainingSet &train_set, const StaticalModelParameter *param, std::mt19937 &rnd)
 				{
 					std::uniform_real_distribution<>	uni_dist(0.0, 1.0);
 					MatType				ftype			=	train_set.get_feature_type();
@@ -442,7 +442,7 @@ namespace cvpr
 
 				unsigned get_num_attributes() const { return 0; }
 
-				void init_params(const TrainingSet &train_set, std::mt19937 &rnd);
+				void init_params(const TrainingSet &train_set, const StaticalModelParameter *param, std::mt19937 &rnd);
 
 				double kernel_function(const cv::Mat &feature, const SplitNodeParameterBase *param) const;
 

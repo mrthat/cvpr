@@ -246,7 +246,7 @@ int	RandomizedTree::grow_tree(const TrainingSet &train_set, const RandomizedTree
 			TrainingSet	left_tmp(feature_type, label_type);
 			TrainingSet	right_tmp(feature_type, label_type);
 
-			new_split->train(train_set, rng, &left_tmp, &right_tmp);
+			new_split->train(train_set, &param, rng, &left_tmp, &right_tmp);
 			new_score	=	calc_entropy_gain(train_set, left_tmp, right_tmp, param);//EvaluateSplitNode(train_set, param, new_split);
 			
 			if (best_score < new_score) {

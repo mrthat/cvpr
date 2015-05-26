@@ -6,6 +6,8 @@
 #include <vector>
 #include "..\..\base\header\TrainingData.h"
 #include "..\..\base\header\PredictionResult.h"
+#include "..\..\base\header\StaticalModel.h"
+
 namespace cvpr
 {
 	namespace TreeNode
@@ -165,7 +167,7 @@ namespace cvpr
 				*	@param	right		学習後時にRIGHTに分割されたサンプルを入れる(オプション)
 				*	@return	0:成功, -1:失敗
 				*/
-				virtual int				train(const TrainingSet &train_set, std::mt19937 &rnd, TrainingSet *left = nullptr, TrainingSet *right = nullptr);
+				virtual int				train(const TrainingSet &train_set, const StaticalModelParameter *param, std::mt19937 &rnd, TrainingSet *left = nullptr, TrainingSet *right = nullptr);
 
 				virtual int	save(cv::FileStorage &cvfs) const ;
 
@@ -199,7 +201,7 @@ namespace cvpr
 				*	@param	train_set	学習セット
 				*	@param	rnd			乱数エンジン
 				*/
-				virtual void			init_params(const TrainingSet &train_set, std::mt19937 &rnd)	=	0;
+				virtual void			init_params(const TrainingSet &train_set, const StaticalModelParameter *param, std::mt19937 &rnd)	=	0;
 
 				/**
 				*	カーネル関数計算する

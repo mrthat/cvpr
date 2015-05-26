@@ -49,11 +49,11 @@ void	SplitNodeBase::operator()(const TrainingSet &train_set, TrainingSet &left_s
 		}
 	}
 }
-int	SplitNodeBase::train(const TrainingSet &train_set, std::mt19937 &rnd, TrainingSet *left, TrainingSet *right)
+int	SplitNodeBase::train(const TrainingSet &train_set, const StaticalModelParameter *param, std::mt19937 &rnd, TrainingSet *left, TrainingSet *right)
 {
 	init_attributes(train_set, rnd);
 	//パラメータランダム初期化．オーバーライドされた奴
-	init_params(train_set, rnd);
+	init_params(train_set, param, rnd);
 	double	min_kernel_value	=	std::numeric_limits<double>::max();
 	double	max_kernel_value	=	-std::numeric_limits<double>::max();
 	double	kernel_value_range;

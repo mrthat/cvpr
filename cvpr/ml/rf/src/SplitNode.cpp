@@ -4,7 +4,7 @@ using namespace cvpr;
 using namespace cvpr::TreeNode;
 
 template<typename ty>
-void SplitNodeShapeIndexed<ty>::init_params(const TrainingSet &train_set, std::mt19937 &rnd)
+void SplitNodeShapeIndexed<ty>::init_params(const TrainingSet &train_set, const StaticalModelParameter *param, std::mt19937 &rnd)
 {
 	// 形状パラメータは全データ同じ数ある想定で欠損値考慮しない
 

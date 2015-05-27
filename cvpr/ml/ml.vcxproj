@@ -54,6 +54,7 @@
     <ClInclude Include="rf\header\RandomizedTree.h" />
     <ClInclude Include="factory\header\RandomizedTreeFactory.h" />
     <ClInclude Include="rf\header\RegressionTree.h" />
+    <ClInclude Include="rf\header\ShapeIndexedTree.h" />
     <ClInclude Include="rf\header\SplitNode.h" />
     <ClInclude Include="base\header\StaticalModel.h" />
     <ClInclude Include="base\header\TrainingData.h" />

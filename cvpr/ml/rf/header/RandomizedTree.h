@@ -25,9 +25,11 @@ namespace cvpr
 	class RandomizedTreeParameter : public WeakLearnerParameter
 	{
 		public:
+			
 			RandomizedTreeParameter()
 				: max_height(10), min_samples(10), num_splits(1000), rng_seed(19861124), min_info_grain(0.001f)
 			{};
+
 			virtual			~RandomizedTreeParameter() {};
 			
 			unsigned		max_height;		//< 木の最大高さ 越える前に成長を打ち切る
@@ -41,17 +43,35 @@ namespace cvpr
 			float			min_info_grain;	//< 分割によって得られた情報利得の最小値 下回った場合成長を打ち切る
 
 			/**
+			*	学習時に生成する分割ノードの種類を追加する
+			*	@param	type	追加する種類
+			*	@return	成否
+			*/
+			virtual bool	add_split_type(const TreeNode::SplitNodeType &type);
+
+			/**
+			*	学習時に生成する分割ノードの種類を削除する
+			*	@param	type	削除する種類
+			*/
+			void	remove_split_type(const TreeNode::SplitNodeType &type);
+
+			/**
+			*	分割ノードの種別リストを取得する．
+			*/
+			void	get_split_list(std::vector<TreeNode::SplitNodeType> &dst) const;
+
+			/**
+			*	デフォルトの分割ノードリストを設定する．
+			*/
+			virtual void	set_default_split_list();
+
+		protected:
+
+			/**
 			*	分割ノードの種別のリスト
 			*	リスト内の種別の分割ノードだけ学習に使う
 			*/
 			std::vector<TreeNode::SplitNodeType>	split_type_list;
-			
-			/**
-			*	デフォルトの分割ノード種別リストを返す
-			*/
-			static	std::vector<TreeNode::SplitNodeType>	default_split_list() ;
-
-		protected:
 
 			virtual int		save(const std::string &save_path) const { return 0; };
 

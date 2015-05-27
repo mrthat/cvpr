@@ -33,7 +33,7 @@ int main()
 
 	wparam.max_height = 5;
 	wparam.num_splits = 500;
-	wparam.split_type_list	=	cvpr::RandomizedTreeParameter::default_split_list();
+	wparam.set_default_split_list();
 	factory.set_param(wparam);
 	
 	if (0 != rf2.train(tr, &param))

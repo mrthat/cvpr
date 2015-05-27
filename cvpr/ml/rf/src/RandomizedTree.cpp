@@ -9,15 +9,43 @@ static bool _cmp_node(const PtrNodeBase &lhs, const PtrNodeBase &rhs)
 	return lhs->node_id < rhs->node_id;
 }
 
-std::vector<TreeNode::SplitNodeType>	RandomizedTreeParameter::default_split_list()
+bool	RandomizedTreeParameter::add_split_type(const TreeNode::SplitNodeType &type)
 {
-	std::vector<SplitNodeType>	list;
-	list.push_back(SPLIT_TYPE_AXISALIGNED);
-	list.push_back(SPLIT_TYPE_LINE);
-	list.push_back(SPLIT_TYPE_CONIC);
-	list.push_back(SPLIT_TYPE_ATAN);
-	list.push_back(SPLIT_TYPE_MIN);
-	return list;
+	if (SplitNodeType::SPLIT_TYPE_SHAPE_INDEXED == type)
+		return false;
+
+	// 重複チェックがめんどいので一回消す
+	// 重複サンプルで擬似重み付けできるので重複許可すべき?
+	remove_split_type(type);
+	split_type_list.push_back(type);
+
+	return true;
+}
+
+void	RandomizedTreeParameter::remove_split_type(const TreeNode::SplitNodeType &type)
+{
+	for (auto ii = split_type_list.begin(); ii != split_type_list.end();) {
+		if (type == (*ii))
+			ii	=	split_type_list.erase(ii);
+		else
+			++ii;
+	}
+}
+
+void	RandomizedTreeParameter::get_split_list(std::vector<TreeNode::SplitNodeType> &dst) const
+{
+	dst.clear();
+	dst.insert(dst.end(), split_type_list.begin(), split_type_list.end());
+}
+
+void	RandomizedTreeParameter::set_default_split_list()
+{
+	split_type_list.clear();
+	split_type_list.push_back(SPLIT_TYPE_AXISALIGNED);
+	split_type_list.push_back(SPLIT_TYPE_LINE);
+	split_type_list.push_back(SPLIT_TYPE_CONIC);
+	split_type_list.push_back(SPLIT_TYPE_ATAN);
+	split_type_list.push_back(SPLIT_TYPE_MIN);
 }
 
 int	RandomizedTree::save(const std::string &save_path) const
@@ -236,11 +264,14 @@ int	RandomizedTree::grow_tree(const TrainingSet &train_set, const RandomizedTree
 		double				best_score	=	-std::numeric_limits<double>::max();
 		TrainingSet	left_set(feature_type, label_type);
 		TrainingSet	right_set(feature_type, label_type);
+		std::vector<SplitNodeType>	split_list;
+
+		param.get_split_list(split_list);
 					
 		puts("FindBestSplit ...");
 
 		for (unsigned ii = 0; ii < param.num_splits; ++ii) {
-			SplitNodeType		split_type	=	random_sample<SplitNodeType>(param.split_type_list, rng);
+			SplitNodeType		split_type	=	random_sample<SplitNodeType>(split_list, rng);
 			PtrSplitNodeBase	new_split	=	TreeNode::TreeNodeFactory::create_split_node(split_type, feature_depth_);
 			double				new_score	=	0;
 			TrainingSet	left_tmp(feature_type, label_type);

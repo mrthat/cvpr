@@ -49,5 +49,6 @@
     <ClInclude Include="rf\header\RegressionTree.h" />
     <ClInclude Include="boosting\header\GradientBoosth.h" />
     <ClInclude Include="base\header\PredictionParameter.h" />
+    <ClInclude Include="rf\header\ShapeIndexedTree.h" />
   </ItemGroup>
 </Project>

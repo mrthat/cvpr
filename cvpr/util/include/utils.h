@@ -165,5 +165,30 @@ namespace cvpr
 	*	@param	mat	検査対象の行列
 	*	@param	pt	mat中の点座標
 	*/
-	bool contains(const cv::Mat &mat, const cv::Point pt, int margin = 0) ;
+	bool contains(const cv::Mat &mat, const cv::Point &pt, int margin = 0) ;
+
+	/**
+	*	座標を行列のサイズ内に丸める
+	*	@param	mat	サイズのみ参照
+	*	@param	pt	丸める対象の座標
+	*	@return	丸めた結果
+	*/
+	template<typename ty>
+	cv::Point_<ty> round(const cv::Mat &mat, const cv::Point_<ty> &pt) ;
+
+	/**
+	*	座標をroiの範囲名に丸める
+	*	@param	roi	丸める範囲
+	*	@param	pt	丸める対象の座標
+	*	@return	丸めた結果
+	*/
+	template<typename ty>
+	cv::Point_<ty> round(const cv::Rect &roi, const cv::Point_<ty> &pt);
+
+	/**
+	*	行列全体を表すrectを取得する
+	*	@param	mat	サイズのみ参照
+	*	@return	(0, 0, cols, rows)のrect
+	*/
+	cv::Rect get_rect(const cv::Mat &mat);
 };

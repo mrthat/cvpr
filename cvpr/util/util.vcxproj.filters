@@ -24,6 +24,9 @@
     <ClInclude Include="header\PathUtil.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="header\StringUtil.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\DatasetLoader.cpp">
@@ -33,6 +36,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\PathUtil.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StringUtil.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

@@ -4,6 +4,8 @@
 #include <cassert>
 #include <opencv2\core\core.hpp>
 
+#include "..\header\StringUtil.h"
+
 #define	STRINGIZE(var) (#var)
 
 namespace cvpr

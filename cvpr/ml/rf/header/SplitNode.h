@@ -460,6 +460,10 @@ namespace cvpr
 			
 				SplitNodeType get_split_type() const { return SPLIT_TYPE_SHAPE_INDEXED; };
 
+				int	save(cv::FileStorage &cvfs) const;
+
+				int	load(cv::FileStorage &cvfs);
+
 			protected:
 
 				enum {

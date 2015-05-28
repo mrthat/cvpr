@@ -74,7 +74,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DataReader.cpp" />
-    <ClCompile Include="IbunFaceAnnotation.cpp" />
+    <ClCompile Include="IbugFaceAnnotation.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -87,7 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataReader.h" />
-    <ClInclude Include="IbunFaceAnnotation.h" />
+    <ClInclude Include="IbugFaceAnnotation.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

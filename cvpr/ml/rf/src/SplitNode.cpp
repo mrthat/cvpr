@@ -48,3 +48,36 @@ double SplitNodeShapeIndexed<ty>::kernel_function(const cv::Mat &feature, const 
 
 	return val[0] - val[1];
 }
+
+template<typename ty>
+int	SplitNodeShapeIndexed<ty>::save(cv::FileStorage &cvfs) const
+{
+	int	ret	=	SplitNodeBase::save(cvfs);
+
+	if (0 != ret)
+		return ret;
+
+	cv::write(cvfs, STRINGIZE(shape_index), (int)shape_index);
+
+	cv::write(cvfs, STRINGIZE(offsets), offsets);
+
+	return 0;
+}
+
+template<typename ty>
+int	SplitNodeShapeIndexed<ty>::load(cv::FileStorage &cvfs)
+{
+	int	ret	=	SplitNodeBase::load(cvfs);
+	int	tmp	=	0;
+
+	if (0 != ret)
+		return ret;
+
+	cv::read(cvfs[STRINGIZE(shape_index)], tmp);
+
+	shape_index	=	(std::size_t)tmp;
+
+	cv::read(cvfs[STRINGIZE(offsets)], offsets);
+
+	return 0;
+}

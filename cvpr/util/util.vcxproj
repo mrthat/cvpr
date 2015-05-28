@@ -69,12 +69,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="header\DataSetLoader.h" />
+    <ClInclude Include="header\StringUtil.h" />
     <ClInclude Include="include\utils.h" />
     <ClInclude Include="header\PathUtil.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\PathUtil.cpp" />
     <ClCompile Include="src\DatasetLoader.cpp" />
+    <ClCompile Include="src\StringUtil.cpp" />
     <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

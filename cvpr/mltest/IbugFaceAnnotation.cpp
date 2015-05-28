@@ -1,4 +1,5 @@
-#include "IbunFaceAnnotation.h"
+#include "IbugFaceAnnotation.h"
+#include "..\..\util\include\utils.h"
 #include <opencv2\highgui\highgui.hpp>
 #include <fstream>
 
@@ -61,6 +62,50 @@ int IbugFaceAnnotation::open_pts(const std::string &path_pts)
 	}
 
 	//file_name	=	cvpr::get_file_name(path_pts);
+
+	return 0;
+}
+
+int	IbugFaceAnnotationos::open(const std::string &list_path)
+{
+	std::vector<std::string>	list;
+
+	int	ret	=	read_list(list_path, list);
+
+	if (0 != ret)
+		return ret;
+
+	for (std::size_t ii = 0; ii < list.size(); ++ii) {
+		IbugFaceAnnotation	ann;
+		int	ret	=	ann.open(list[ii]);
+
+		if (ret != 0)
+			continue;
+
+		annotations.push_back(ann);
+	}
+
+	return 0;
+}
+
+int	IbugFaceAnnotationos::read_list(const std::string &path, std::vector<std::string> &dst) const
+{
+	std::ifstream	ifs(path);
+	std::string		buff;
+
+	dst.clear();
+
+	if (!ifs)
+		return -1;
+
+	while (std::getline(ifs, buff)) {
+		std::string line	=	cvpr::trim_right(buff, "\r\n ");
+
+		if (line.empty())
+			continue;
+
+		dst.push_back(line);
+	}
 
 	return 0;
 }

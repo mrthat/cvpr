@@ -48,6 +48,8 @@ PtrSplitNodeBase TreeNodeFactory::create_split_node(SplitNodeType node_type)
 			return PtrSplitNodeBase(new SplitNodeHaar<ty>());
 		case SPLIT_TYPE_HAAR_INT:
 			return PtrSplitNodeBase(new SplitNodeHaarIntegral<ty>());
+		case SPLIT_TYPE_SHAPE_INDEXED:
+			return PtrSplitNodeBase(new SplitNodeShapeIndexed<ty>());
 	}
 }
 

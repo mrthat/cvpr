@@ -5,6 +5,7 @@
 #include <opencv2\core\core.hpp>
 
 #include "..\header\StringUtil.h"
+#include "..\header\PathUtil.h"
 
 #define	STRINGIZE(var) (#var)
 

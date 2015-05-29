@@ -2,12 +2,20 @@
 #include "..\util\header\DataSetLoader.h"
 #include "..\ml\boosting\header\GradientBoosth.h"
 #include "..\ml\factory\header\RandomizedTreeFactory.h"
+#include "IbugFaceAnnotation.h"
 //#include "..\util\header\PathUtil.h"
 #include <random>
 #include "DataReader.h"
 
 int main()
 {
+	IbugFaceAnnotationos	anns;
+
+	anns.open("C:\\git\\cvpr\\datasets\\list.txt");
+
+	int g = 0;
+
+#if 0
 	std::mt19937 rng(19861124);
 	cvpr::TrainingSet datas = DataReader::wine("C:\\git\\cvpr\\datasets\\UCI\\wine\\winequality-white.csv");
 	cvpr::TrainingSet tr = datas.random_sample(0.7, rng);
@@ -99,5 +107,6 @@ int main()
 	fprintf (fp,"%f\n", cnt / ts.size());
 	fprintf (fp,"%f\n", cnt2 / ts.size());
 	*/
+#endif
 	return 0;
 }

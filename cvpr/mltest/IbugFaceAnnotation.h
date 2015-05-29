@@ -17,8 +17,6 @@ class IbugFaceAnnotation
 	*/
 	int open(const std::string &img_path);
 
-	protected:
-
 	/**
 	* .ptsファイルを開く
 	* @param	path_pts	ファイルパス
@@ -26,16 +24,34 @@ class IbugFaceAnnotation
 	*/
 	int	open_pts(const std::string &path_pts);
 
+	/**
+	*	画像だけ開く
+	*	@param	img_path	画像パス
+	*	@return	成否
+	*/
+	int	open_img(const std::string &img_path);
+
+	/**
+	*	画像ファイルパスからptsファイルパスを得る
+	*	(拡張子変えるだけ)
+	*	@param	img_path	画像パス
+	*	@return	ptsファイルパス
+	*/
+	static std::string	get_pts_path(const std::string &img_path);
+
+	//! 読み込んだ画像
 	cv::Mat image;
 
-	//! 読み込んだファイルのファイル名部分だけ抜き出したもの
-	std::string file_name;
+	//! 読み込んだファイルの"名前"
+	std::string name;
 
 	//! 読み込んだ点列
 	std::vector<cv::Point2d> pts;
 
 	//! バージョン番号
 	int version;
+
+	protected:
 };
 
 class IbugFaceAnnotationos
@@ -91,4 +107,18 @@ class IbugFaceAnnotationos
 		*	@return	成否
 		*/
 		int	read_list(const std::string &path, std::vector<std::string> &dst) const;
+
+		/**
+		*	画像パスを画像名と画像番号に分解する
+		*	c:\\hoge_2.jpg => 2, hoge
+		*	@param	path	分解するパス
+		*	@param	no		画像番号(番号がなければ-1)
+		*	@param	name	画像名
+		*/
+		void split_img_path(const std::string &path, int &no, std::string &name);
+
+		/**
+		*	画像名でアノテーションを検索する．
+		*/
+		int	find(const std::string &name);
 };

@@ -5,8 +5,8 @@ std::string cvpr::trim_right(const std::string &str, const std::string &trim)
 	std::string::size_type	pos	=	str.find_last_not_of(trim);
 
 	if (std::string::npos == pos) {
-		return str;
+		return "";
 	}
 
-	return str.substr(0, pos);
+	return str.substr(0, pos+1);
 }

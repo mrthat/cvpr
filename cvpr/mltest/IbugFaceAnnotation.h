@@ -11,11 +11,25 @@ class IbugFaceAnnotation
 	public:
 
 	/**
+	*	デフォルトコンストラクタ
+	*/
+	IbugFaceAnnotation()
+		: no(-1) {};
+
+	/**
 	*	画像ファイルとセットになっているptsファイルを開く
 	*	@param	img_path	画像ファイルパス
 	*	@return	成否
 	*/
-	int open(const std::string &img_path);
+	int	open(const std::string &img_path);
+
+	/**
+	*	画像とランドマークを保存する．
+	*	画像パスだけ指定．ランドマークは拡張子をptsに変えて吐く
+	*	@param	img_path	画像パス
+	*	@return	成否
+	*/
+	int	write(const std::string &img_path);
 
 	/**
 	* .ptsファイルを開く
@@ -32,6 +46,18 @@ class IbugFaceAnnotation
 	int	open_img(const std::string &img_path);
 
 	/**
+	*	landmarkの外接矩形 + 矩形の指定割合のマージンで
+	*	画像を切り出して再設定する．
+	*	landmark位置も移動する
+	*	画像端に達して余白が取れない場合戻り値でわかるが，
+	*	再設定は行う．
+	*
+	*	@param	margin_rate	外接矩形の何割の余白をつけるか
+	*	@return	1:端っこいった, 0:正常
+	*/
+	int	trim(double margin_rate);
+
+	/**
 	*	画像ファイルパスからptsファイルパスを得る
 	*	(拡張子変えるだけ)
 	*	@param	img_path	画像パス
@@ -45,8 +71,11 @@ class IbugFaceAnnotation
 	//! 読み込んだファイルの"名前"
 	std::string name;
 
+	//! 読み込んだファイルの番号(あれば)
+	int	no;
+
 	//! 読み込んだ点列
-	std::vector<cv::Point2d> pts;
+	std::vector<cv::Point2f> pts;
 
 	//! バージョン番号
 	int version;
@@ -95,7 +124,7 @@ class IbugFaceAnnotationos
 		*/
 		int	open(const std::string &list_path);
 
-	protected:
+	//protected:
 
 		//!	アノテーション
 		std::vector<IbugFaceAnnotation>	annotations;

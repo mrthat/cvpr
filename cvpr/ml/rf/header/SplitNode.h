@@ -422,7 +422,7 @@ namespace cvpr
 		{
 			public:
 				//! 形状
-				std::vector<cv::Point2d>	shape;
+				std::vector<cv::Point2f>	shape;
 
 				/**
 				*	特徴位置に適用する変換
@@ -481,7 +481,7 @@ namespace cvpr
 				std::size_t	shape_index;
 
 				//! 形状からのオフセット 形状データは2dを想定
-				std::vector<cv::Point2d>	offsets;
+				std::vector<cv::Point2f>	offsets;
 
 		};
 	};

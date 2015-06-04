@@ -15,12 +15,16 @@ bool	TrainingSet::push_back(const PtrTrainingExample &example)
 
 double	TrainingSet::compute_label_entropy() const 
 {
-	cv::Mat		label_sum		=	calc_label_sum();
-	int			num_label_elem	=	get_total1(label_sum);
+	cv::Mat		label_sum;
+	int			num_label_elem	=	label_type_.total();
 	double		total_votes		=	0.0;
-	double		*ptr_data		=	label_sum.ptr<double>();
+	double		*ptr_data		=	nullptr;
 	double		entropy			=	0.0;
 	
+	compute_target_mean(label_sum);
+
+	ptr_data		=	label_sum.ptr<double>();
+
 	// ƒ‰ƒxƒ‹‚Ì’l‚Ì‘”‚ğ‹‚ß‚é
 	for (int ii = 0; ii < num_label_elem; ++ii) {
 		total_votes	+=	ptr_data[ii];
@@ -58,24 +62,6 @@ bool	TrainingSet::is_valid_example(const PtrTrainingExample &example) const
 	}
 
 	return true;
-}
-
-cv::Mat	TrainingSet::calc_label_sum()const
-{
-	cv::Mat	label_sum((int)label_type_.sizes.size(), &label_type_.sizes[0], CV_64FC(label_type_.channels()));
-	cv::Mat	tmp;
-
-	label_sum	=	0;
-
-	for (auto ii = examples_.begin(); ii != examples_.end(); ++ii) {
-		if ((*ii)->target.depth() == CV_64F)
-			tmp = (*ii)->target;
-		else
-			(*ii)->target.convertTo(tmp, CV_64F);
-		label_sum	+=	tmp;
-	}
-
-	return label_sum;
 }
 
 TrainingSet	TrainingSet::calc_l2_normalized_set() const 

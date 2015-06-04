@@ -6,6 +6,10 @@ namespace cvpr
 {
 	typedef RegressionTree ShapeIndexedTree;
 
+	class ShapeIndexedPredictionParameter : public TreeNode::ShapeIndexedSplitParameter
+	{
+	};
+
 	class ShapeIndexedTreeParameter : public RegressionTreeParameter
 	{
 		public:
@@ -22,6 +26,5 @@ namespace cvpr
 			RegressionTreeParameter::add_split_type;
 			RegressionTreeParameter::remove_split_type;
 			RegressionTreeParameter::set_default_split_list;
-
 	};
 };

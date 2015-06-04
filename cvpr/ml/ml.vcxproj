@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="base\src\TrainingImage.cpp" />
     <ClCompile Include="boosting\src\GradientBoost.cpp" />
     <ClCompile Include="factory\src\StatModelFactory.cpp" />
     <ClCompile Include="boosting\src\AdaBoost.cpp" />
@@ -45,6 +46,7 @@
   <ItemGroup>
     <ClInclude Include="base\header\MlDefines.h" />
     <ClInclude Include="base\header\PredictionParameter.h" />
+    <ClInclude Include="base\header\TrainingImage.h" />
     <ClInclude Include="boosting\header\GradientBoosth.h" />
     <ClInclude Include="factory\header\StatModelFactory.h" />
     <ClInclude Include="boosting\header\AdaBoost.h" />

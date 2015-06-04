@@ -1,8 +1,13 @@
 #include "IbugFaceAnnotation.h"
-#include "..\..\util\include\utils.h"
+#include "..\header\PathUtil.h"
+#include "..\header\StringUtil.h"
+#include "..\..\ml\rf\header\ShapeIndexedTree.h"
 #include <opencv2\imgproc\imgproc.hpp>
 #include <opencv2\highgui\highgui.hpp>
+#include <opencv2\video\tracking.hpp>
 #include <fstream>
+
+using namespace cvpr;
 
 int	IbugFaceAnnotation::trim(double margin_rate)
 {
@@ -10,10 +15,10 @@ int	IbugFaceAnnotation::trim(double margin_rate)
 	int	bbox_state	=	0;
 
 	// マージン分追加した外接矩形を求める．
-	bbox.x	-=	bbox.width * margin_rate;
-	bbox.y	-=	bbox.height * margin_rate;
-	bbox.width	*=	1.0 + 2 * margin_rate;
-	bbox.height	*=	1.0 + 2 * margin_rate;
+	bbox.x	-=	(int)std::floor(bbox.width * margin_rate);
+	bbox.y	-=	(int)std::floor(bbox.height * margin_rate);
+	bbox.width	*=	(int)std::ceil(1.0 + 2 * margin_rate);
+	bbox.height	*=	(int)std::ceil(1.0 + 2 * margin_rate);
 
 	// 画像に対して外接矩形が大きすぎる場合は
 	// 画像に合わせて枠状態を変える
@@ -79,6 +84,8 @@ int	IbugFaceAnnotation::write(const std::string &img_path)
 	}
 
 	file << "}";
+
+	return 0;
 }
 
 int IbugFaceAnnotation::open_pts(const std::string &path_pts)
@@ -157,7 +164,7 @@ std::string	IbugFaceAnnotation::get_pts_path(const std::string &img_path)
 	return img_path.substr(0, dot_pos) + ".pts";
 }
 
-int	IbugFaceAnnotationos::open(const std::string &list_path)
+int	IbugFaceAnnotationos::open(const std::string &list_path, bool need_trim, double margin_rate)
 {
 	std::vector<std::string>	list;
 
@@ -172,7 +179,6 @@ int	IbugFaceAnnotationos::open(const std::string &list_path)
 		int	imgno	=	0;
 		std::string	pts_path	=	IbugFaceAnnotation::get_pts_path(list[ii]);
 		int	ret	=	0;
-		int	idx	=	0;
 
 		split_img_path(list[ii], imgno, name);
 
@@ -181,18 +187,16 @@ int	IbugFaceAnnotationos::open(const std::string &list_path)
 		if (0 != ret)
 			return ret;
 
-		idx	=	find(name);
 		ann.name	=	name;
 		ann.no		=	imgno;
 
-		if (-1 != idx) {
-			ann.image	=	annotations[idx].image;
-		} else {
-			ret	=	ann.open_img(list[ii]);
+		ret	=	ann.open_img(list[ii]);
 
-			if (0 != ret)
-				return ret;
-		}
+		if (need_trim)
+			ann.trim(margin_rate);
+
+		if (0 != ret)
+			return ret;
 
 		annotations.push_back(ann);
 	}
@@ -238,8 +242,65 @@ int	IbugFaceAnnotationos::find(const std::string &name)
 {
 	for (std::size_t ii = 0; ii < annotations.size(); ++ii) {
 		if (annotations[ii].name.compare(name) == 0)
-			return ii;
+			return (int)ii;
 	}
 
 	return -1;
+}
+
+void	IbugFaceAnnotationos::get_average_shape(std::vector<cv::Point2f> &dst) const
+{
+	if (annotations.empty())
+		return;
+
+	dst.assign(annotations.front().pts.size(), cv::Point2f(0, 0));
+
+	for (auto ann = annotations.begin(); ann != annotations.end(); ++ann) {
+		for (std::size_t ii = 0; ii < ann->pts.size(); ++ii) {
+			dst[ii].x	+=	ann->pts[ii].x / ann->image.cols;
+			dst[ii].y	+=	ann->pts[ii].y / ann->image.rows;
+		}
+	}
+
+	for (auto pt = dst.begin(); pt != dst.end(); ++pt) {
+		pt->x	/=	annotations.size();
+		pt->y	/=	annotations.size();
+	}
+}
+
+TrainingImage IbugFaceAnnotationos::create_train_set() const
+{
+	if (annotations.empty())
+		return TrainingImage(MatType());
+
+	// アノテーションの点列は全部同じ数あるということにする
+	TrainingImage	dst(MatType(annotations.front().pts.size(), 2, CV_32FC1));
+	std::vector<cv::Point2f>	avg_shape;
+
+	for (auto ii = annotations.begin(); ii != annotations.end(); ++ii) {
+		PtrTrainingExample	sample(new TrainingExample);
+		cv::Mat	trans;
+		ShapeIndexedPredictionParameter	*param	=	new ShapeIndexedPredictionParameter;
+
+		// 特徴と教師入れる
+		sample->feature	=	ii->image;
+		sample->target.create(ii->pts.size(), 2, CV_32FC1);
+		for (std::size_t row = 0; row < ii->pts.size(); ++row) {
+			sample->target.at<float>(row, 0)	=	ii->pts[row].x;
+			sample->target.at<float>(row, 1)	=	ii->pts[row].y;
+		}
+
+		sample->param.reset(param);
+
+		// 識別用パラメータ入れる
+		param->shape		=	ii->pts;
+		param->transform	=	cv::estimateRigidTransform(avg_shape, ii->pts, false);
+
+		if (!dst.push_back(sample)) {
+			// なんかいるならエラー処理
+			continue;
+		}
+	}
+
+	return dst;
 }

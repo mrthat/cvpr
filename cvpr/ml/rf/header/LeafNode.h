@@ -26,8 +26,8 @@ namespace cvpr
 
 				int				train(const TrainingSet &train_set)
 				{
-					this->posterior_	=	train_set.calc_label_sum();
-
+					train_set.compute_target_mean(posterior_);
+					
 					this->posterior_	/=	(double)train_set.size();
 
 					return 0;
@@ -82,7 +82,7 @@ namespace cvpr
 				{
 					// 葉ノードに到達したデータの平均だけとっておく
 					// ガウスで推定等するなら拡張する
-					this->posterior_	=	train_set.calc_label_sum();
+					train_set.compute_target_mean(posterior_);
 
 					this->posterior_	/=	(double)train_set.size();
 

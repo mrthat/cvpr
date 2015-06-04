@@ -4,88 +4,92 @@
 #include <string>
 #include <opencv2\core\core.hpp>
 
-//! iBUGってグループが出してるface point annotationのクラス
-//! http://ibug.doc.ic.ac.uk/resources/facial-point-annotations/
-class IbugFaceAnnotation
-{
-	public:
+#include "..\..\ml\base\header\TrainingImage.h"
 
-	/**
-	*	デフォルトコンストラクタ
-	*/
-	IbugFaceAnnotation()
-		: no(-1) {};
+namespace cvpr{
 
-	/**
-	*	画像ファイルとセットになっているptsファイルを開く
-	*	@param	img_path	画像ファイルパス
-	*	@return	成否
-	*/
-	int	open(const std::string &img_path);
+	//! iBUGってグループが出してるface point annotationのクラス
+	//! http://ibug.doc.ic.ac.uk/resources/facial-point-annotations/
+	class IbugFaceAnnotation
+	{
+		public:
 
-	/**
-	*	画像とランドマークを保存する．
-	*	画像パスだけ指定．ランドマークは拡張子をptsに変えて吐く
-	*	@param	img_path	画像パス
-	*	@return	成否
-	*/
-	int	write(const std::string &img_path);
+		/**
+		*	デフォルトコンストラクタ
+		*/
+		IbugFaceAnnotation()
+			: no(-1) {};
 
-	/**
-	* .ptsファイルを開く
-	* @param	path_pts	ファイルパス
-	* @return	成否
-	*/
-	int	open_pts(const std::string &path_pts);
+		/**
+		*	画像ファイルとセットになっているptsファイルを開く
+		*	@param	img_path	画像ファイルパス
+		*	@return	成否
+		*/
+		int	open(const std::string &img_path);
 
-	/**
-	*	画像だけ開く
-	*	@param	img_path	画像パス
-	*	@return	成否
-	*/
-	int	open_img(const std::string &img_path);
+		/**
+		*	画像とランドマークを保存する．
+		*	画像パスだけ指定．ランドマークは拡張子をptsに変えて吐く
+		*	@param	img_path	画像パス
+		*	@return	成否
+		*/
+		int	write(const std::string &img_path);
 
-	/**
-	*	landmarkの外接矩形 + 矩形の指定割合のマージンで
-	*	画像を切り出して再設定する．
-	*	landmark位置も移動する
-	*	画像端に達して余白が取れない場合戻り値でわかるが，
-	*	再設定は行う．
-	*
-	*	@param	margin_rate	外接矩形の何割の余白をつけるか
-	*	@return	1:端っこいった, 0:正常
-	*/
-	int	trim(double margin_rate);
+		/**
+		* .ptsファイルを開く
+		* @param	path_pts	ファイルパス
+		* @return	成否
+		*/
+		int	open_pts(const std::string &path_pts);
 
-	/**
-	*	画像ファイルパスからptsファイルパスを得る
-	*	(拡張子変えるだけ)
-	*	@param	img_path	画像パス
-	*	@return	ptsファイルパス
-	*/
-	static std::string	get_pts_path(const std::string &img_path);
+		/**
+		*	画像だけ開く
+		*	@param	img_path	画像パス
+		*	@return	成否
+		*/
+		int	open_img(const std::string &img_path);
 
-	//! 読み込んだ画像
-	cv::Mat image;
+		/**
+		*	landmarkの外接矩形 + 矩形の指定割合のマージンで
+		*	画像を切り出して再設定する．
+		*	landmark位置も移動する
+		*	画像端に達して余白が取れない場合戻り値でわかるが，
+		*	再設定は行う．
+		*
+		*	@param	margin_rate	外接矩形の何割の余白をつけるか
+		*	@return	1:端っこいった, 0:正常
+		*/
+		int	trim(double margin_rate);
 
-	//! 読み込んだファイルの"名前"
-	std::string name;
+		/**
+		*	画像ファイルパスからptsファイルパスを得る
+		*	(拡張子変えるだけ)
+		*	@param	img_path	画像パス
+		*	@return	ptsファイルパス
+		*/
+		static std::string	get_pts_path(const std::string &img_path);
 
-	//! 読み込んだファイルの番号(あれば)
-	int	no;
+		//! 読み込んだ画像
+		cv::Mat image;
 
-	//! 読み込んだ点列
-	std::vector<cv::Point2f> pts;
+		//! 読み込んだファイルの"名前"
+		std::string name;
 
-	//! バージョン番号
-	int version;
+		//! 読み込んだファイルの番号(あれば)
+		int	no;
 
-	protected:
-};
+		//! 読み込んだ点列
+		std::vector<cv::Point2f> pts;
 
-class IbugFaceAnnotationos
-{
-	public:
+		//! バージョン番号
+		int version;
+
+		protected:
+	};
+
+	class IbugFaceAnnotationos
+	{
+		public:
 
 		/**
 		*	データのアクセサ
@@ -120,11 +124,20 @@ class IbugFaceAnnotationos
 		*	画像ファイルリストパスを指定して，
 		*	画像ファイルとアノテーションを読み込む
 		*	@param	list_path	画像ファイルリストのパス
+		*	@param	need_trim	読み込み後にtrimするかどうか
+		*	@param	margin_rate	trimする場合に使うマージン率
 		*	@return	成否
 		*/
-		int	open(const std::string &list_path);
+		int	open(const std::string &list_path, bool need_trim = false, double margin_rate = 0.1);
 
-	//protected:
+		/**
+		*	学習セットを生成する．
+		*	特徴ベクトルは画像そのまま．バッファはコピーされない
+		*	@return	学習セット
+		*/
+		TrainingImage create_train_set() const;
+
+		//protected:
 
 		//!	アノテーション
 		std::vector<IbugFaceAnnotation>	annotations;
@@ -150,4 +163,12 @@ class IbugFaceAnnotationos
 		*	画像名でアノテーションを検索する．
 		*/
 		int	find(const std::string &name);
+
+		/**
+		*	平均形状を算出する
+		*	@param	dst	平均形状
+		*/
+		void	get_average_shape(std::vector<cv::Point2f> &dst) const;
+	};
+
 };

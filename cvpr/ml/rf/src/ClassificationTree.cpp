@@ -28,19 +28,23 @@ bool	ClassificationTree::is_end_growth(const TrainingSet &train_set, const cvpr:
 
 void	ClassificationTree::print_train_log(const TreeNode::PtrSplitNodeBase split, const TrainingSet &train_set) const
 {
-	MatType	ltype	=	train_set.get_label_type();
-	MatType	ftype	=	train_set.get_feature_type();
-
-	TrainingSet	left_set(ftype, ltype);
-	TrainingSet	right_set(ftype, ltype);
-	int			rows	=	(int)ltype.total();
+	MatType				ltype	=	train_set.get_label_type();
+	MatType				ftype	=	train_set.get_feature_type();
+	int					rows	=	(int)ltype.total();
+	cv::Mat_<double>	left_tmp;
+	cv::Mat_<double>	right_tmp;
+	TrainingSet			left_set(ftype, ltype);
+	TrainingSet			right_set(ftype, ltype);
 
 	split->operator()(train_set, left_set, right_set);
 
-	cv::Mat_<double>	left_tmp	=	left_set.calc_label_sum();
-	cv::Mat_<double>	right_tmp	=	right_set.calc_label_sum();
+	
+	left_set.compute_target_mean(left_tmp);
+	right_set.compute_target_mean(right_tmp);
+
 	cv::Mat_<double>	left_dist(rows, 1, (double*)left_tmp.data);
 	cv::Mat_<double>	right_dist(rows, 1, (double*)right_tmp.data);
+
 
 	printf("left dist\n");
 	for (unsigned ii = 0; ii < left_dist.total(); ++ii) {
@@ -56,7 +60,9 @@ void	ClassificationTree::print_train_log(const TreeNode::PtrSplitNodeBase split,
 
 void	ClassificationTree::print_train_log(const TreeNode::PtrLeafNodeBase leaf, const TrainingSet &train_set) const
 {
-	cv::Mat_<double>	label_dist	=	train_set.calc_label_sum();
+	cv::Mat_<double>	label_dist;
+
+	train_set.compute_target_mean(label_dist);
 
 	printf("leaf dist\n");
 

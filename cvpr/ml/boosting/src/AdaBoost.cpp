@@ -30,11 +30,11 @@ int AdaBoost::train(const TrainingSet &train_set, const StaticalModelParameter *
 
 double AdaBoost::evaluate(const TrainingSet &datas, const cv::Mat &weight, PtrWeakLearner &model) 
 {
-	cv::Mat	errs(datas.size(), 1, CV_64FC1);
+	cv::Mat	errs((int)datas.size(), 1, CV_64FC1);
 
 	errs	=	0.0;
 
-	for (std::size_t ii = 0; ii < datas.size(); ++ii) {
+	for (int ii = 0; ii < errs.rows; ++ii) {
 		ClassificationResult	result;
 		int	tlabel	=	datas[ii]->label();
 		double	err	=	0.0;
@@ -49,7 +49,7 @@ double AdaBoost::evaluate(const TrainingSet &datas, const cv::Mat &weight, PtrWe
 
 int AdaBoost::train(const TrainingSet &datas, const AdaboostParameter &param, cv::RNG &rng)
 {
-	cv::Mat	sample_weights(datas.size(), 1, CV_64FC1, 1.0);
+	cv::Mat	sample_weights((int)datas.size(), 1, CV_64FC1, 1.0);
 
 	for (unsigned int round = 0; round < param.nr_rounds; ++round) {
 		double	alpha	=	0;
@@ -102,13 +102,12 @@ int AdaBoost::train(const TrainingSet &datas, const AdaboostParameter &param, cv
 	return 0;
 }
 
-
 void AdaBoost::update_sample_weights(const TrainingSet &datas, const cv::Mat &src_weight,
 	PtrWeakLearner &model, double alpha, cv::Mat &dst_weight) 
 {
 	dst_weight.create(src_weight.size(), CV_64FC1);
 
-	for (std::size_t ii = 0; ii < datas.size(); ++ii) {
+	for (int ii = 0; ii < dst_weight.rows; ++ii) {
 		ClassificationResult	result;
 		int	label	=	-1;
 

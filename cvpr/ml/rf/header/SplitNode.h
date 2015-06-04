@@ -426,7 +426,8 @@ namespace cvpr
 
 				/**
 				*	特徴位置に適用する変換
-				*	推定位置を平均位置に変換した時の逆変換を入れる
+				*	正規化された平均位置を推定位置に変換する
+				*	2*3のアフィン変換行列
 				*/
 				cv::Mat	transform;
 
@@ -434,7 +435,7 @@ namespace cvpr
 		};
 
 		//! 形状参照分割ノードの学習パラメータ
-		class ShapeIndexedTrainParameter : public StaticalModel
+		class ShapeIndexedTrainParameter : public StaticalModelParameter
 		{
 			public:
 

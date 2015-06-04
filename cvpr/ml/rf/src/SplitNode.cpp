@@ -36,7 +36,9 @@ double SplitNodeShapeIndexed<ty>::kernel_function(const cv::Mat &feature, const 
 
 	assert(null != param_);
 
-	cv::perspectiveTransform(offsets, warped_offsets, param_->transform);
+	//cv::perspectiveTransform(offsets, warped_offsets, param_->transform);
+
+	cv::transform(offsets, warped_offsets, param_->transform);
 
 	for (std::size_t ii = 0; ii < warped_offsets.size(); ++ii) {
 		cv::Point2f	pos	=	param_->shape[shape_index] + warped_offsets[ii];

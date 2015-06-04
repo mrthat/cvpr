@@ -125,6 +125,7 @@
   <ItemGroup>
     <ClInclude Include="header\DataSetLoader.h" />
     <ClInclude Include="header\StringUtil.h" />
+    <ClInclude Include="header\utils_.h" />
     <ClInclude Include="include\utils.h" />
     <ClInclude Include="header\PathUtil.h" />
   </ItemGroup>

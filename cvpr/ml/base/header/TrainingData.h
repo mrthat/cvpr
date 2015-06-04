@@ -7,7 +7,7 @@
 #include	<memory>
 #include	<opencv2\core\core.hpp>
 #include	"PredictionParameter.h"
-#include	"utils.h"
+#include	"..\..\..\util\include\utils.h"
 
 namespace cvpr
 {
@@ -289,7 +289,7 @@ namespace cvpr
 			*	@param	example	追加する訓練サンプル
 			*	@return	true:成功, false:失敗
 			*/
-			bool	push_back(const PtrTrainingExample &example);
+			virtual bool	push_back(const PtrTrainingExample &example);
 
 			/**
 			*	サンプル総数取得
@@ -317,12 +317,6 @@ namespace cvpr
 			*/
 			double	compute_label_entropy() const ;
 
-			/**
-			*	全サンプルでラベルの和を取る
-			*	@return	和の計算結果
-			*/
-			cv::Mat	calc_label_sum()const;
-		
 			/**
 			*	特徴ベクトルのタイプを取得
 			*/
@@ -417,7 +411,7 @@ namespace cvpr
 			*	@param	example	判定対象の訓練サンプル
 			*	@return	true:有効, false: 無効
 			*/
-			bool	is_valid_example(const PtrTrainingExample &example) const;
+			virtual bool	is_valid_example(const PtrTrainingExample &example) const;
 
 			/**
 			*	教師の二乗の平均

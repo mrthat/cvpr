@@ -9,61 +9,17 @@
 
 #include <opencv2\opencv.hpp>
 
+using namespace cvpr;
+
 int main()
 {
 	IbugFaceAnnotationos	anns;
-	//cv::CascadeClassifier	cc;
-	std::vector<std::string>	files;
-	/*
-	if (!cc.load("C:\\git\\cvpr\\external\\opencv\\sources\\data\\lbpcascades\\lbpcascade_frontalface.xml")) {
-		puts("failed to read detector");
-		return 0;
-	}
 
-	anns.read_list("C:\\git\\cvpr\\datasets\\list.txt", files);
-	*/
-	anns.read_list("C:\\git\\cvpr\\datasets\\list.txt", files);
-	for (std::size_t ii = 0; ii < files.size(); ++ii) {
-		IbugFaceAnnotation	ann;
+	anns.open("C:\\git\\cvpr\\datasets\\face_alignment\\helen\\train_list.txt", true);
 
-		ann.open(files[ii]);
+	TrainingImage	timg	=	anns.create_train_set();
 
-		if (0 != ann.trim(0.1))
-			printf("trim warn %s, %d\n", files[ii].c_str(), ii);
-
-		cv::Mat img = ann.image.clone();
-
-		for (std::size_t jj = 0; jj < ann.pts.size(); ++jj) {
-			cv::circle(img, ann.pts[jj], 2, cv::Scalar(0, 255, 0));
-		}
-
-		char nm[256];
-		sprintf(nm, ".\\data\\face%05d.png", ii);
-		ann.write(nm);
-
-		sprintf(nm, ".\\tmp\\aaa%05d.png", ii);
-		cv::imwrite(nm, img);
-		/*
-		std::vector<cv::Rect>	objs;
-		cv::Mat	img	=	cv::imread(files[ii]);
-
-		ann.open_pts(pts);
-
-		cc.detectMultiScale(img, objs);
-
-		for (std::size_t jj = 0; jj < objs.size(); ++jj) {
-			cv::rectangle(img, objs[ii], cv::Scalar(0, 0, 255), 2);
-		}
-
-		for (std::size_t jj = 0; jj < ann.pts.size(); ++jj) {
-			cv::circle(img, ann.pts[jj], 2, cv::Scalar(0, 255, 0));
-		}
-
-		char path[256];
-		sprintf(path, ".\\tmp\\%05d.png", ii);
-		cv::imwrite(path, img);
-		*/
-	}
+	int hoge = 9;
 
 #if 0
 	std::mt19937 rng(19861124);

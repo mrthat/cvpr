@@ -17,8 +17,8 @@ int	IbugFaceAnnotation::trim(double margin_rate)
 	// マージン分追加した外接矩形を求める．
 	bbox.x	-=	(int)std::floor(bbox.width * margin_rate);
 	bbox.y	-=	(int)std::floor(bbox.height * margin_rate);
-	bbox.width	*=	(int)std::ceil(1.0 + 2 * margin_rate);
-	bbox.height	*=	(int)std::ceil(1.0 + 2 * margin_rate);
+	bbox.width	*=	1.0 + 2 * margin_rate;
+	bbox.height	*=	1.0 + 2 * margin_rate;
 
 	// 画像に対して外接矩形が大きすぎる場合は
 	// 画像に合わせて枠状態を変える
@@ -192,11 +192,11 @@ int	IbugFaceAnnotationos::open(const std::string &list_path, bool need_trim, dou
 
 		ret	=	ann.open_img(list[ii]);
 
-		if (need_trim)
-			ann.trim(margin_rate);
-
 		if (0 != ret)
 			return ret;
+
+		if (need_trim)
+			ann.trim(margin_rate);
 
 		annotations.push_back(ann);
 	}

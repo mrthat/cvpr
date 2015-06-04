@@ -15,7 +15,7 @@ int main()
 {
 	IbugFaceAnnotationos	anns;
 
-	anns.open("C:\\git\\cvpr\\datasets\\face_alignment\\helen\\train_list.txt", true);
+	anns.open("C:\\git_work\\cvpr\\datasets\\face_alignment\\helen\\train_list.txt", true);
 
 	TrainingImage	timg	=	anns.create_train_set();
 

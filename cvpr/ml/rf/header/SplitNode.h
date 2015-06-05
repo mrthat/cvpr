@@ -1,6 +1,7 @@
 #pragma once
 #include <sstream>
 #include "TreeNode.h"
+#include "ShapeIndexedSplitNode.h"
 
 namespace cvpr
 {
@@ -417,73 +418,5 @@ namespace cvpr
 				}
 		};
 
-		//! 形状参照分割ノードのパラメータ
-		class ShapeIndexedSplitParameter : public SplitNodeParameterBase
-		{
-			public:
-				//! 形状
-				std::vector<cv::Point2f>	shape;
-
-				/**
-				*	特徴位置に適用する変換
-				*	正規化された平均位置を推定位置に変換する
-				*	2*3のアフィン変換行列
-				*/
-				cv::Mat	transform;
-
-			protected:
-		};
-
-		//! 形状参照分割ノードの学習パラメータ
-		class ShapeIndexedTrainParameter : public StaticalModelParameter
-		{
-			public:
-
-			/**
-			*	形状点周りの特徴点の配置範囲半径(pix)
-			*/
-			int	radius;
-
-			/**
-			*	形状点個数
-			*/
-			std::size_t	num_shape;
-		};
-
-		/**
-		*	パラメータで渡された形状点からの相対位置を使用して
-		*	splitするクラス．
-		*/
-		template<typename ty>
-		class SplitNodeShapeIndexed : public TreeNode::SplitNodeBase
-		{
-			public:
-			
-				SplitNodeType get_split_type() const { return SPLIT_TYPE_SHAPE_INDEXED; };
-
-				int	save(cv::FileStorage &cvfs) const;
-
-				int	load(cv::FileStorage &cvfs);
-
-			protected:
-
-				enum {
-					//! 形状店回りの特徴点数
-					NUM_FEATURE_POS	=	2,
-				};
-
-				unsigned get_num_attributes() const { return 0; }
-
-				void init_params(const TrainingSet &train_set, const StaticalModelParameter *param, std::mt19937 &rnd);
-
-				double kernel_function(const cv::Mat &feature, const SplitNodeParameterBase *param) const;
-
-				//! 使用する形状点のインデックス
-				std::size_t	shape_index;
-
-				//! 形状からのオフセット 形状データは2dを想定
-				std::vector<cv::Point2f>	offsets;
-
-		};
 	};
 };

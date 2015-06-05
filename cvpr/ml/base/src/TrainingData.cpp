@@ -53,11 +53,11 @@ double	TrainingSet::compute_label_entropy() const
 bool	TrainingSet::is_valid_example(const PtrTrainingExample &example) const
 {
 	// 特徴ベクトルとラベルのサイズと型があってるか調べる
-	if (!feature_type_.equals(example->feature)) {
+	if (!feature_type_.empty() && !feature_type_.equals(example->feature)) {
 		return false;
 	}
 
-	if (!label_type_.equals(example->target)) {
+	if (!label_type_.empty() && !label_type_.equals(example->target)) {
 		return false;
 	}
 

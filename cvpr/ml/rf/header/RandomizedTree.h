@@ -22,7 +22,7 @@ namespace cvpr
 	/**
 	*	randomized treeのパラメータクラス
 	*/
-	class RandomizedTreeParameter : public WeakLearnerParameter
+	class RandomizedTreeParameter : public virtual WeakLearnerParameter
 	{
 		public:
 			

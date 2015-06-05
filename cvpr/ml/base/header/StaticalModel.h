@@ -80,7 +80,7 @@ namespace cvpr
 	};
 
 	//! 弱識別器パラメータクラス (不要感ある)
-	class WeakLearnerParameter : public StaticalModelParameter
+	class WeakLearnerParameter : public virtual StaticalModelParameter
 	{
 	};
 

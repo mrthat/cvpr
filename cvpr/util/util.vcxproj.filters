@@ -35,13 +35,13 @@
     <ClCompile Include="src\DatasetLoader.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\utils.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="src\PathUtil.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\StringUtil.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils_.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

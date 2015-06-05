@@ -139,6 +139,7 @@ int GradientBoost::train(const TrainingSet &datas, const GradientBoostParameter 
 
 	return 0;
 }
+
 bool	GradientBoost::is_valid_param(const TrainingSet &datas, const GradientBoostParameter &param) const
 {
 	if (param.shrinkage < std::numeric_limits<double>::min())
@@ -152,7 +153,6 @@ bool	GradientBoost::is_valid_param(const TrainingSet &datas, const GradientBoost
 
 	return true;
 }
-
 
 int GradientBoost::find_initial_model(const TrainingSet &datas, const GradientBoostParameter &param)
 {

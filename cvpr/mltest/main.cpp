@@ -3,6 +3,7 @@
 #include "..\ml\boosting\header\GradientBoosth.h"
 #include "..\ml\factory\header\RandomizedTreeFactory.h"
 #include "IbugFaceAnnotation.h"
+#include "..\ml\\\rf\header\ShapeIndexedTree.h"
 //#include "..\util\header\PathUtil.h"
 #include <random>
 #include "DataReader.h"
@@ -15,11 +16,18 @@ int main()
 {
 	IbugFaceAnnotationos	anns;
 
-	anns.open("C:\\git_work\\cvpr\\datasets\\face_alignment\\helen\\train_list.txt", true);
+	anns.open("C:\\git\\cvpr\\datasets\\face_alignment\\helen\\train_list.txt", true);
 
 	TrainingImage	timg	=	anns.create_train_set();
 
-	int hoge = 9;
+	ShapeIndexedTree	sit;
+	ShapeIndexedTreeParameter	param;
+
+	param.num_shape	=	anns[0].pts.size();
+
+	sit.train(timg, &param);
+
+//	int hoge = 9;
 
 #if 0
 	std::mt19937 rng(19861124);

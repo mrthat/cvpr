@@ -10,7 +10,7 @@ namespace cvpr
 	{
 	};
 
-	class ShapeIndexedTreeParameter : public RegressionTreeParameter
+	class ShapeIndexedTreeParameter : public virtual RegressionTreeParameter, public virtual TreeNode::ShapeIndexedTrainParameter
 	{
 		public:
 
@@ -26,5 +26,9 @@ namespace cvpr
 			RegressionTreeParameter::add_split_type;
 			RegressionTreeParameter::remove_split_type;
 			RegressionTreeParameter::set_default_split_list;
+
+			virtual int		save(const std::string &save_path) const { return 0; };
+
+			virtual int		load(const std::string &load_path) { return 0; };
 	};
 };

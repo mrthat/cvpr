@@ -43,7 +43,10 @@ int	IbugFaceAnnotation::trim(double margin_rate)
 	}
 
 	// 画像切り出しとランドマーク位置合わせ
-	image	=	image(bbox).clone();
+	cv::Mat tmp	=	image(bbox);
+	//image	=	image(bbox).clone();
+	image.release();
+	tmp.copyTo(image);
 
 	for (std::size_t ii = 0; ii < pts.size(); ++ii) {
 		pts[ii].x	-=	bbox.x;
@@ -133,7 +136,7 @@ int IbugFaceAnnotation::open_pts(const std::string &path_pts)
 
 int	IbugFaceAnnotation::open_img(const std::string &img_path)
 {
-	image	=	cv::imread(img_path);
+	image	=	cv::imread(img_path, 0);
 
 	if (image.empty())
 		return -1;
@@ -277,10 +280,13 @@ TrainingImage IbugFaceAnnotationos::create_train_set() const
 	TrainingImage	dst(MatType(annotations.front().pts.size(), 2, CV_32FC1));
 	std::vector<cv::Point2f>	avg_shape;
 
+	get_average_shape(avg_shape);
+
 	for (auto ii = annotations.begin(); ii != annotations.end(); ++ii) {
 		PtrTrainingExample	sample(new TrainingExample);
 		cv::Mat	trans;
 		ShapeIndexedPredictionParameter	*param	=	new ShapeIndexedPredictionParameter;
+		std::vector<cv::Point2f>	tmp_shape(ii->pts.size());
 
 		// 特徴と教師入れる
 		sample->feature	=	ii->image;
@@ -292,9 +298,22 @@ TrainingImage IbugFaceAnnotationos::create_train_set() const
 
 		sample->param.reset(param);
 
+		for (std::size_t jj = 0; jj < ii->pts.size(); ++jj) {
+			tmp_shape[jj].x	=	ii->pts[jj].x / ii->image.cols;
+			tmp_shape[jj].y	=	ii->pts[jj].y / ii->image.rows;
+		}
+
 		// 識別用パラメータ入れる
 		param->shape		=	ii->pts;
-		param->transform	=	cv::estimateRigidTransform(avg_shape, ii->pts, false);
+		param->transform	=	cv::estimateRigidTransform(avg_shape, tmp_shape, false);
+
+		if (param->transform.empty()) {
+			puts("ugaaaaaaa");
+			continue;
+		}
+
+		param->transform.row(0)	*=	ii->image.cols;
+		param->transform.row(1)	*=	ii->image.rows;
 
 		if (!dst.push_back(sample)) {
 			// なんかいるならエラー処理

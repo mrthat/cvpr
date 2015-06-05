@@ -24,6 +24,7 @@
     <ClCompile Include="rf\src\RegressionTree.cpp" />
     <ClCompile Include="boosting\src\GradientBoost.cpp" />
     <ClCompile Include="base\src\TrainingImage.cpp" />
+    <ClCompile Include="face_alignment\src\FaceAkignKazemiCvpr14.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base\header\PredictionResult.h" />
@@ -52,5 +53,7 @@
     <ClInclude Include="base\header\PredictionParameter.h" />
     <ClInclude Include="rf\header\ShapeIndexedTree.h" />
     <ClInclude Include="base\header\TrainingImage.h" />
+    <ClInclude Include="rf\header\ShapeIndexedSplitNode.h" />
+    <ClInclude Include="face_alignment\header\FaceAlignKazemiCvpr14.h" />
   </ItemGroup>
 </Project>

@@ -2,7 +2,7 @@
 #include	<cmath>
 #include	<limits>
 #include	<sstream>
-#include	"..\include\utils.h"
+#include	"..\header\utils_.h"
 
 const static double EULER_CONSTANT	=	0.577215664901532860606512090082;
 
@@ -240,28 +240,6 @@ bool cvpr::contains(const cv::Mat &mat, const cv::Point &pt, int margin)
 	}
 
 	return true;
-}
-
-template<typename ty>
-cv::Point_<ty> cvpr::round(const cv::Mat &mat, const cv::Point_<ty> &pt)
-{
-	cv::Rect	roi	=	get_rect(mat);
-
-	return round<ty>(roi, pt);
-}
-
-template<typename ty>
-cv::Point_<ty> cvpr::round(const cv::Rect &roi, const cv::Point_<ty> &pt)
-{
-	cv::Point_<ty>	dst;
-
-	dst.x	=	std::min(pt.x, roi.br().x - 1);
-	dst.x	=	std::max(dst.x, roi.x);
-
-	dst.y	=	std::min(pt.y, roi.br().y - 1);
-	dst.y	=	std::max(dst.y, roi.y);
-
-	return dst;
 }
 
 cv::Rect cvpr::get_rect(const cv::Mat &mat)

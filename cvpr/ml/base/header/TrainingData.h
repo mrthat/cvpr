@@ -248,6 +248,17 @@ namespace cvpr
 				return CV_MAT_DEPTH(data_type);
 			}
 
+			/**
+			*	行列タイプが空かどうかを返す
+			*/
+			bool empty() const
+			{
+				if (0 == data_type)
+					return true;
+
+				return sizes.empty();
+			}
+
 		protected:
 	};
 

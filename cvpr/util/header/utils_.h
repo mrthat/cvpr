@@ -174,7 +174,12 @@ namespace cvpr
 	*	@return	丸めた結果
 	*/
 	template<typename ty>
-	cv::Point_<ty> round(const cv::Mat &mat, const cv::Point_<ty> &pt);
+	cv::Point_<ty> round(const cv::Mat &mat, const cv::Point_<ty> &pt)
+	{
+		cv::Rect	roi	=	get_rect(mat);
+
+		return round<ty>(roi, pt);
+	}
 
 	/**
 	*	座標をroiの範囲名に丸める
@@ -183,7 +188,18 @@ namespace cvpr
 	*	@return	丸めた結果
 	*/
 	template<typename ty>
-	cv::Point_<ty> round(const cv::Rect &roi, const cv::Point_<ty> &pt);
+	cv::Point_<ty> round(const cv::Rect &roi, const cv::Point_<ty> &pt)
+	{
+		cv::Point_<ty>	dst;
+
+		dst.x	=	std::min<ty>(pt.x, roi.br().x - 1);
+		dst.x	=	std::max<ty>(dst.x, roi.x);
+
+		dst.y	=	std::min<ty>(pt.y, roi.br().y - 1);
+		dst.y	=	std::max<ty>(dst.y, roi.y);
+
+		return dst;
+	}
 
 	/**
 	*	行列全体を表すrectを取得する

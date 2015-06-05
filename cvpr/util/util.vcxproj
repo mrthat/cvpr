@@ -133,7 +133,7 @@
     <ClCompile Include="src\PathUtil.cpp" />
     <ClCompile Include="src\DatasetLoader.cpp" />
     <ClCompile Include="src\StringUtil.cpp" />
-    <ClCompile Include="src\utils.cpp" />
+    <ClCompile Include="src\utils_.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

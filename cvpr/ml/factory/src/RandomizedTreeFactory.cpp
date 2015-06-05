@@ -17,9 +17,12 @@ PtrRandomizedTree	RandomizedTreeFactory::Create(TreeType tree_type)
 
 PtrWeakLearnerParam ClassificationTreePoolFactory::next_param()
 {
-	PtrWeakLearnerParam	param_	=	PtrWeakLearnerParam(new ClassificationTreeParameter(this->param));
+	ClassificationTreeParameter*	tmp	=	new ClassificationTreeParameter(this->param);
+	PtrWeakLearnerParam	param_;
 
-	((ClassificationTreeParameter*)param_.get())->rng_seed	=	rng();
+	tmp->rng_seed	=	rng();
+
+	param_.reset(tmp);
 
 	return param_;
 }

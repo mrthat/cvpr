@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="base\src\TrainingImage.cpp" />
     <ClCompile Include="boosting\src\GradientBoost.cpp" />
+    <ClCompile Include="face_alignment\src\FaceAkignKazemiCvpr14.cpp" />
     <ClCompile Include="factory\src\StatModelFactory.cpp" />
     <ClCompile Include="boosting\src\AdaBoost.cpp" />
     <ClCompile Include="mlp\src\ConvolutionalNeuralNetwork.cpp" />
@@ -48,6 +49,7 @@
     <ClInclude Include="base\header\PredictionParameter.h" />
     <ClInclude Include="base\header\TrainingImage.h" />
     <ClInclude Include="boosting\header\GradientBoosth.h" />
+    <ClInclude Include="face_alignment\header\FaceAlignKazemiCvpr14.h" />
     <ClInclude Include="factory\header\StatModelFactory.h" />
     <ClInclude Include="boosting\header\AdaBoost.h" />
     <ClInclude Include="mlp\header\ConvolutionalNeuralNetwork.h" />
@@ -64,12 +66,18 @@
     <ClInclude Include="rf\header\RandomizedTree.h" />
     <ClInclude Include="factory\header\RandomizedTreeFactory.h" />
     <ClInclude Include="rf\header\RegressionTree.h" />
+    <ClInclude Include="rf\header\ShapeIndexedSplitNode.h" />
     <ClInclude Include="rf\header\ShapeIndexedTree.h" />
     <ClInclude Include="rf\header\SplitNode.h" />
     <ClInclude Include="base\header\StaticalModel.h" />
     <ClInclude Include="base\header\TrainingData.h" />
     <ClInclude Include="rf\header\TreeNode.h" />
     <ClInclude Include="rf\header\TreeNodeFactory.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\util\util.vcxproj">
+      <Project>{95c83582-6974-4372-a1f0-81441d1441c0}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{EEE8A706-C245-4ACD-BBEF-93D6DAA112CA}</ProjectGuid>
